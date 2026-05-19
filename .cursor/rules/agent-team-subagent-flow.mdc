@@ -1,0 +1,34 @@
+---
+description: Explicit leader/coder/reviewer flow for Cursor Agent and Background Agents.
+globs:
+alwaysApply: false
+---
+
+# Cursor Agent-Team Subagent Flow
+
+Use this rule when the user explicitly asks for the subagent workflow or asks to run the `leader`, `coder`, and `reviewer` flow.
+
+Cursor does not use Codex `.codex/agents/*.toml` files or Claude Code `.claude/agents/*.md` subagent files. In Cursor, apply this flow through Cursor Agent instructions, Project Rules, and Background Agents when parallel remote work is useful.
+
+## Required Flow
+
+The main Cursor Agent coordinates exactly three role-scoped agents or role simulations:
+
+- `leader`: analyze scope and create a plan only. The leader must not edit files.
+- `coder`: implement the smallest safe change inside the assigned scope.
+- `reviewer`: review the final git diff.
+
+The main agent must:
+
+- Start or instruct each role explicitly.
+- Keep ownership scopes disjoint.
+- Wait for the requested results before reporting completion.
+- Review all handoffs before finalizing.
+- Summarize the final result.
+- Do not skip review.
+
+## Cursor Usage
+
+Use Cursor Background Agents for independent remote work when the task can be split safely. For small or tightly coupled tasks, keep the roles in one Cursor Agent session and clearly label each role's output.
+
+The `reviewer` role must inspect the final diff after the `coder` role finishes.

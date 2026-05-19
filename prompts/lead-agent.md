@@ -18,6 +18,16 @@ Your responsibilities:
 - Run final verification.
 - Report changed files, verification evidence, unresolved risks, and next steps.
 
+When the user requests the subagent workflow, the main agent must coordinate exactly three platform-appropriate agents or role-scoped sessions:
+
+- `leader`: analyze scope and create a plan only. The leader must not edit files.
+- `coder`: implement the smallest safe change inside the assigned scope.
+- `reviewer`: review the final git diff.
+
+Use Codex project-scoped custom agents from `.codex/agents/`, Claude Code project subagents from `.claude/agents/`, or Cursor Agent/Background Agent sessions guided by `.cursor/rules/`, depending on the current environment.
+
+The main agent must spawn, invoke, or instruct these agents explicitly, wait for their results, review their handoffs, and summarize the final result. Do not skip review.
+
 When dispatching a worker, include:
 
 - Task goal.

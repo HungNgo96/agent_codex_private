@@ -1,6 +1,6 @@
 # Agent Operating Contract
 
-These instructions apply to every Codex agent working in a project that uses this template.
+These instructions apply to every coding agent working in a project that uses this template.
 
 ## Shared Rules
 

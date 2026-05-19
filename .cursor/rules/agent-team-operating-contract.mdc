@@ -1,0 +1,28 @@
+---
+description: Shared agent-team operating contract for Cursor Agent work in this project.
+globs:
+alwaysApply: true
+---
+
+# Cursor Agent Team Operating Contract
+
+This project uses the shared agent-team template in the repository root.
+
+Before making changes:
+
+- Read `@AGENTS.md` for the shared operating contract.
+- Use `@prompts/lead-agent.md` when acting as the lead agent.
+- Use `@prompts/worker-agent.md` when acting as a bounded worker.
+- Choose the relevant workflow from `@workflows/` before decomposing work.
+- Use `@templates/task-brief.md` for lead task briefs.
+- Use `@templates/handoff-note.md` for worker handoffs.
+
+Cursor-specific expectations:
+
+- Treat this rule as the project-level adapter for Cursor Agent.
+- Keep the reusable docs in this repo as the source of truth.
+- Do not copy large sections of the template into new Cursor rules unless the shared contract changes.
+- Prefer small, reviewable edits and report verification evidence before claiming completion.
+- If a task is small or tightly coupled, keep it in one Cursor Agent session instead of forcing parallel work.
+
+When delegating or simulating worker roles, keep ownership scopes disjoint and include the required handoff sections from `@templates/handoff-note.md`.
