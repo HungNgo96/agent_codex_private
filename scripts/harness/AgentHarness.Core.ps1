@@ -575,9 +575,15 @@ function Invoke-AgentHarnessSampleApiChecks {
     New-Item -ItemType Directory -Path $runDir -Force | Out-Null
     $stdout = Join-Path $runDir "stdout.log"
     $stderr = Join-Path $runDir "stderr.log"
+    $employeeDatabasePath = Join-Path $runDir "employees.db"
+    $previousDatabaseProvider = $env:Database__Provider
+    $previousEmployeeConnectionString = $env:ConnectionStrings__EmployeeDatabase
 
     $process = $null
     try {
+        $env:Database__Provider = "Sqlite"
+        $env:ConnectionStrings__EmployeeDatabase = "Data Source=$employeeDatabasePath"
+
         $process = Start-Process `
             -FilePath "dotnet" `
             -ArgumentList @("run", "--project", $project, "--urls", $baseUrl) `
@@ -621,9 +627,38 @@ function Invoke-AgentHarnessSampleApiChecks {
                 -Evidence $evidence
         }
 
-        $products = Invoke-RestMethod -Uri "$baseUrl/api/v1/products" -TimeoutSec 5
-        $product = Invoke-RestMethod -Uri "$baseUrl/api/v1/products/1" -TimeoutSec 5
-        $openApi = Invoke-RestMethod -Uri "$baseUrl/openapi/v1.json" -TimeoutSec 5
+        try {
+            $products = Invoke-RestMethod -Uri "$baseUrl/api/v1/products" -TimeoutSec 5
+            $product = Invoke-RestMethod -Uri "$baseUrl/api/v1/products/1" -TimeoutSec 5
+            $workflows = Invoke-RestMethod -Uri "$baseUrl/api/v1/agent-workflows" -TimeoutSec 5
+            $harnessRuns = Invoke-RestMethod -Uri "$baseUrl/api/v1/harness-runs" -TimeoutSec 5
+            $harnessRun = Invoke-RestMethod -Uri "$baseUrl/api/v1/harness-runs/20260521-100730" -TimeoutSec 5
+            $employeeStorage = Invoke-RestMethod -Uri "$baseUrl/api/v1/employees/storage" -TimeoutSec 5
+            $createEmployeeBody = @{
+                employeeCode = "HARNESS-001"
+                fullName = "Harness Employee"
+                email = "harness.employee@example.com"
+                department = "Quality"
+                jobTitle = "Harness Tester"
+            } | ConvertTo-Json
+            $createdEmployee = Invoke-RestMethod `
+                -Method Post `
+                -Uri "$baseUrl/api/v1/employees" `
+                -ContentType "application/json" `
+                -Body $createEmployeeBody `
+                -TimeoutSec 5
+            $employee = Invoke-RestMethod -Uri "$baseUrl/api/v1/employees/$($createdEmployee.id)" -TimeoutSec 5
+            $openApi = Invoke-RestMethod -Uri "$baseUrl/openapi/v1.json" -TimeoutSec 5
+        }
+        catch {
+            return New-AgentHarnessCheck `
+                -Id "sample-api-endpoints" `
+                -Name "Sample API endpoints" `
+                -Status "Failed" `
+                -Severity "Error" `
+                -Message "The sample API endpoint probe failed." `
+                -Evidence @($_.Exception.Message)
+        }
 
         if (@($products).Count -lt 1 -or $product.id -ne 1 -or -not $openApi.openapi) {
             return New-AgentHarnessCheck `
@@ -635,15 +670,47 @@ function Invoke-AgentHarnessSampleApiChecks {
                 -Evidence @("Products count: $(@($products).Count)", "Product 1 id: $($product.id)", "OpenAPI version: $($openApi.openapi)")
         }
 
+        if (@($workflows).Count -lt 3 -or @($harnessRuns).Count -lt 1 -or $harnessRun.id -ne "20260521-100730") {
+            return New-AgentHarnessCheck `
+                -Id "sample-api-endpoints" `
+                -Name "Sample API endpoints" `
+                -Status "Failed" `
+                -Severity "Error" `
+                -Message "The sample API returned unexpected harness-flow data." `
+                -Evidence @("Workflow count: $(@($workflows).Count)", "Harness run count: $(@($harnessRuns).Count)", "Harness run id: $($harnessRun.id)")
+        }
+
+        if ($employeeStorage.provider -ne "sqlite" -or -not $employeeStorage.postgreSqlSupported -or $employee.employeeCode -ne "HARNESS-001") {
+            return New-AgentHarnessCheck `
+                -Id "sample-api-endpoints" `
+                -Name "Sample API endpoints" `
+                -Status "Failed" `
+                -Severity "Error" `
+                -Message "The sample API returned unexpected employee API data." `
+                -Evidence @("Employee provider: $($employeeStorage.provider)", "PostgreSQL supported: $($employeeStorage.postgreSqlSupported)", "Employee code: $($employee.employeeCode)")
+        }
+
         New-AgentHarnessCheck `
             -Id "sample-api-endpoints" `
             -Name "Sample API endpoints" `
             -Status "Passed" `
             -Severity "Info" `
             -Message "The sample API responded to product and OpenAPI probes." `
-            -Evidence @("$baseUrl/api/v1/products", "$baseUrl/api/v1/products/1", "$baseUrl/openapi/v1.json")
+            -Evidence @(
+                "$baseUrl/api/v1/products",
+                "$baseUrl/api/v1/products/1",
+                "$baseUrl/api/v1/agent-workflows",
+                "$baseUrl/api/v1/harness-runs",
+                "$baseUrl/api/v1/harness-runs/20260521-100730",
+                "$baseUrl/api/v1/employees/storage",
+                "$baseUrl/api/v1/employees",
+                "$baseUrl/openapi/v1.json"
+            )
     }
     finally {
+        $env:Database__Provider = $previousDatabaseProvider
+        $env:ConnectionStrings__EmployeeDatabase = $previousEmployeeConnectionString
+
         if ($process -and -not $process.HasExited) {
             Stop-Process -Id $process.Id -Force
             try {

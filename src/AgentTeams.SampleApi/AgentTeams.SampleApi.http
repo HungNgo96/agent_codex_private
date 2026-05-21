@@ -10,6 +10,29 @@ Accept: application/json
 
 ###
 
+GET {{AgentTeams.SampleApi_HostAddress}}/api/v1/employees
+Accept: application/json
+
+###
+
+POST {{AgentTeams.SampleApi_HostAddress}}/api/v1/employees
+Content-Type: application/json
+
+{
+  "employeeCode": "EMP-001",
+  "fullName": "Nguyen Van A",
+  "email": "nguyen.van.a@example.com",
+  "department": "Engineering",
+  "jobTitle": "Backend Engineer"
+}
+
+###
+
+GET {{AgentTeams.SampleApi_HostAddress}}/api/v1/employees/storage
+Accept: application/json
+
+###
+
 GET {{AgentTeams.SampleApi_HostAddress}}/openapi/v1.json
 Accept: application/json
 

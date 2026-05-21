@@ -23,7 +23,30 @@ flowchart TD
 - `workflows/`: playbooks for common task types.
 - `templates/`: repeatable task, handoff, review, and implementation-plan formats.
 - `scripts/`: local automation, including the agent harness.
-- `src/AgentTeams.SampleApi`: minimal .NET sample project used by the harness.
+- `src/AgentTeams.SampleApi`: API host and Minimal API inbound adapters used by the harness.
+- `src/AgentTeams.SampleApi.Domain`: domain entities and business rules with no ASP.NET or EF Core references.
+- `src/AgentTeams.SampleApi.Application`: employee use cases, DTOs, result types, and ports.
+- `src/AgentTeams.SampleApi.Infrastructure`: EF Core persistence adapters, SQLite/PostgreSQL provider wiring, and migrations.
+- `src/AgentTeams.SampleApi.Tests`: API integration tests and application use-case tests.
+
+## Clean Architecture Boundary
+
+```mermaid
+flowchart LR
+    Api[API Host / Minimal APIs] --> Application[Application Use Cases]
+    Infrastructure[Infrastructure Adapters] --> Application
+    Infrastructure --> Domain[Domain]
+    Application --> Domain
+    Api --> Infrastructure
+    Infrastructure --> Database[(SQLite / PostgreSQL)]
+```
+
+Dependency direction:
+
+- API depends on Application for use-case contracts and Infrastructure for composition.
+- Application depends on Domain and port interfaces only.
+- Infrastructure implements Application ports and owns EF Core details.
+- Domain has no framework, database, or transport dependencies.
 
 ## Knowledge Store
 

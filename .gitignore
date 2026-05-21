@@ -21,6 +21,9 @@
 # .NET build artifacts
 artifacts/
 .harness-runs/
+*.db
+*.db-shm
+*.db-wal
 
 # Publish output
 publish/
