@@ -1,15 +1,29 @@
 # Scripts
 
-This directory is reserved for future automation.
+This directory contains local automation for validating the agent-team template.
 
-The first version of this template is documentation-only. Add scripts here after the manual workflow is proven.
+## Harness
+
+Run the local QA harness:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Quick
+```
+
+Run full verification with sample API endpoint probes:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Full -RunSampleApi
+```
+
+See `../docs/harness-engineering.md` for check details, report format, and extension guidance.
+
+## Future Helpers
 
 Potential future helpers:
 
 - Generate task briefs from templates.
 - Create timestamped handoff notes.
-- Launch multiple agent sessions.
+- Launch multiple agent sessions after the manual workflow is stable enough to automate safely.
 - Aggregate worker handoffs.
-- Validate required sections in handoff documents.
-
-Do not add orchestration scripts until the repository has a clear, repeated manual workflow to automate.
+- Validate additional project-specific quality gates.

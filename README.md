@@ -88,7 +88,7 @@ Do not skip review.
 - `workflows/`: playbooks for common work types.
 - `templates/`: task, handoff, review, and plan formats.
 - `examples/`: complete examples of agent-team usage.
-- `scripts/`: reserved for optional future orchestration helpers.
+- `scripts/`: local harness and optional future orchestration helpers.
 
 ## Operating Model
 
@@ -100,6 +100,22 @@ Every worker must assume other agents may be editing the repo. Workers should st
 
 Do not claim completion without evidence. Depending on the task, evidence can include tests, builds, linting, manual reproduction, browser checks, source citations, or local file references.
 
+## Local Harness
+
+Run the local QA harness to validate the agent-team docs, templates, implementation plans, and sample API:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Quick
+```
+
+For full verification with endpoint probes:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Full -RunSampleApi
+```
+
+See `docs/harness-engineering.md` for the check list and report format.
+
 ## Future Automation
 
-The initial template is intentionally documentation-only. Add scripts later only after the workflow is proven manually.
+Add orchestration scripts only after the workflow is proven manually and the harness can validate the expected contracts.
