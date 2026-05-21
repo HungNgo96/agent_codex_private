@@ -7,6 +7,7 @@ Source: https://openai.com/index/harness-engineering/
 ## Goals
 
 - Validate the agent-team operating contract in `AGENTS.md`, prompts, workflows, teams, and templates.
+- Validate the in-repository knowledge store layout in `ARCHITECTURE.md` and `docs/`.
 - Check that task briefs, handoffs, and implementation plans preserve ownership and verification evidence.
 - Build the sample API and optionally probe its local endpoints.
 - Produce reports that are easy for a lead agent, worker agent, or human reviewer to inspect.
@@ -78,6 +79,7 @@ Each check includes `id`, `name`, `status`, `severity`, `message`, and `evidence
 ## Current Checks
 
 - `required-files`: verifies the core template files exist.
+- `knowledge-store-layout`: verifies the repository knowledge store files and directories exist.
 - `markdown-sections`: verifies required sections in operating docs, prompts, and templates.
 - `repo-local-links`: verifies Markdown links to repository-local paths resolve.
 - `handoff-contract`: verifies the handoff template captures scope, evidence, verification, risks, integration notes, and next step.

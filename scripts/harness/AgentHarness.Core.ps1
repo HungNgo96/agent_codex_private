@@ -119,6 +119,7 @@ function Test-AgentHarnessRequiredFiles {
 
     $required = @(
         "AGENTS.md",
+        "ARCHITECTURE.md",
         "README.md",
         "prompts/lead-agent.md",
         "prompts/worker-agent.md",
@@ -160,6 +161,66 @@ function Test-AgentHarnessRequiredFiles {
         -Severity "Info" `
         -Message "All required repository files are present." `
         -Evidence @("$($required.Count) files checked.")
+}
+
+function Test-AgentHarnessKnowledgeStoreLayout {
+    param([Parameter(Mandatory = $true)][string]$RepoRoot)
+
+    $requiredPaths = @(
+        "AGENTS.md",
+        "ARCHITECTURE.md",
+        "docs/design-docs",
+        "docs/design-docs/index.md",
+        "docs/design-docs/core-beliefs.md",
+        "docs/exec-plans",
+        "docs/exec-plans/active",
+        "docs/exec-plans/active/index.md",
+        "docs/exec-plans/completed",
+        "docs/exec-plans/completed/index.md",
+        "docs/exec-plans/tech-debt-tracker.md",
+        "docs/generated",
+        "docs/generated/db-schema.md",
+        "docs/product-specs",
+        "docs/product-specs/index.md",
+        "docs/product-specs/new-user-onboarding.md",
+        "docs/references",
+        "docs/references/design-system-reference-llms.txt",
+        "docs/references/nixpacks-llms.txt",
+        "docs/references/uv-llms.txt",
+        "docs/DESIGN.md",
+        "docs/FRONTEND.md",
+        "docs/PLANS.md",
+        "docs/PRODUCT_SENSE.md",
+        "docs/QUALITY_SCORE.md",
+        "docs/RELIABILITY.md",
+        "docs/SECURITY.md"
+    )
+
+    $missing = @()
+    foreach ($relativePath in $requiredPaths) {
+        $fullPath = Join-Path $RepoRoot $relativePath
+        if (-not (Test-Path -LiteralPath $fullPath)) {
+            $missing += $relativePath
+        }
+    }
+
+    if ($missing.Count -gt 0) {
+        return New-AgentHarnessCheck `
+            -Id "knowledge-store-layout" `
+            -Name "In-repository knowledge store layout" `
+            -Status "Failed" `
+            -Severity "Error" `
+            -Message "Required knowledge-store paths are missing." `
+            -Evidence $missing
+    }
+
+    New-AgentHarnessCheck `
+        -Id "knowledge-store-layout" `
+        -Name "In-repository knowledge store layout" `
+        -Status "Passed" `
+        -Severity "Info" `
+        -Message "The in-repository knowledge store layout is present." `
+        -Evidence @("$($requiredPaths.Count) paths checked.")
 }
 
 function Test-AgentHarnessSectionContracts {
@@ -399,6 +460,7 @@ function Invoke-AgentHarnessStaticChecks {
 
     @(
         Test-AgentHarnessRequiredFiles -RepoRoot $RepoRoot
+        Test-AgentHarnessKnowledgeStoreLayout -RepoRoot $RepoRoot
         Test-AgentHarnessSectionContracts -RepoRoot $RepoRoot
         Test-AgentHarnessRepoLocalLinks -RepoRoot $RepoRoot
         Test-AgentHarnessHandoffContract -RepoRoot $RepoRoot

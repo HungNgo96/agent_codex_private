@@ -33,6 +33,7 @@ $checks = Invoke-AgentHarnessStaticChecks -RepoRoot $RepoRoot -Mode Quick
 $checkIds = @($checks | ForEach-Object { $_.Id })
 
 Assert-True ($checkIds -contains "required-files") "Static checks should include required-files."
+Assert-True ($checkIds -contains "knowledge-store-layout") "Static checks should include knowledge-store-layout."
 Assert-True ($checkIds -contains "markdown-sections") "Static checks should include markdown-sections."
 Assert-True ($checkIds -contains "repo-local-links") "Static checks should include repo-local-links."
 Assert-True ($checkIds -contains "handoff-contract") "Static checks should include handoff-contract."

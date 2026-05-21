@@ -20,12 +20,13 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 
 1. Copy this template into the root of a project.
 2. Read `AGENTS.md` to understand the shared operating contract.
-3. Pick a team from `teams/`.
-4. Start a lead session with `prompts/lead-agent.md`.
-5. Have the lead create a task brief using `templates/task-brief.md`.
-6. Dispatch workers with `prompts/worker-agent.md` and a bounded ownership scope.
-7. Collect handoffs with `templates/handoff-note.md`.
-8. Run final integration and verification before reporting completion.
+3. Read `ARCHITECTURE.md` and the relevant knowledge-store docs under `docs/`.
+4. Pick a team from `teams/`.
+5. Start a lead session with `prompts/lead-agent.md`.
+6. Have the lead create a task brief using `templates/task-brief.md`.
+7. Dispatch workers with `prompts/worker-agent.md` and a bounded ownership scope.
+8. Collect handoffs with `templates/handoff-note.md`.
+9. Run final integration and verification before reporting completion.
 
 ## Platform Setup
 
@@ -78,10 +79,12 @@ Do not skip review.
 ## Repository Map
 
 - `AGENTS.md`: shared rules for every agent working in the repo.
+- `ARCHITECTURE.md`: system overview and knowledge-store entry point.
 - `CLAUDE.md`: Claude Code project memory adapter for the shared contract.
 - `.codex/agents/`: Codex custom project agents for the explicit subagent workflow.
 - `.claude/agents/`: Claude Code project subagents for the explicit subagent workflow.
 - `.cursor/rules/`: Cursor project rules adapter for the shared contract.
+- `docs/`: in-repository knowledge store for architecture, design, product specs, plans, generated references, reliability, security, and quality guidance.
 - `docs/hermes-codex-flow.md`: Hermes-inspired Codex workflow notes.
 - `teams/`: reusable team compositions.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
@@ -89,6 +92,42 @@ Do not skip review.
 - `templates/`: task, handoff, review, and plan formats.
 - `examples/`: complete examples of agent-team usage.
 - `scripts/`: local harness and optional future orchestration helpers.
+
+## In-Repository Knowledge Store
+
+Use this layout for durable context that agents should read before making decisions:
+
+```text
+AGENTS.md
+ARCHITECTURE.md
+docs/
+|-- design-docs/
+|   |-- index.md
+|   |-- core-beliefs.md
+|   `-- ...
+|-- exec-plans/
+|   |-- active/
+|   |-- completed/
+|   `-- tech-debt-tracker.md
+|-- generated/
+|   `-- db-schema.md
+|-- product-specs/
+|   |-- index.md
+|   |-- new-user-onboarding.md
+|   `-- ...
+|-- references/
+|   |-- design-system-reference-llms.txt
+|   |-- nixpacks-llms.txt
+|   |-- uv-llms.txt
+|   `-- ...
+|-- DESIGN.md
+|-- FRONTEND.md
+|-- PLANS.md
+|-- PRODUCT_SENSE.md
+|-- QUALITY_SCORE.md
+|-- RELIABILITY.md
+`-- SECURITY.md
+```
 
 ## Operating Model
 
