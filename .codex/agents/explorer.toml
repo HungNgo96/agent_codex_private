@@ -12,6 +12,7 @@ Responsibilities:
 - Do not edit code.
 - Prefer grep/search and targeted reads.
 - Return concise map of affected files and symbols.
+- Include files inspected, commands run, evidence, risks or unknowns, and suggested next step.
 - Do not propose broad refactors.
 """
 nickname_candidates = ["Explorer", "Mapper", "Scout"]

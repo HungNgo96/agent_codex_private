@@ -8,6 +8,7 @@ These instructions apply to every coding agent working in a project that uses th
 - Keep ownership boundaries explicit. Do not edit outside your assigned scope without reporting why.
 - Prefer existing project patterns over new abstractions.
 - Make small, reviewable changes.
+- Write new Markdown files in English by default. Use another language only when the user explicitly requests it.
 - Report verification evidence before claiming success.
 - Surface blockers and uncertainty early.
 
