@@ -22,7 +22,7 @@ Your responsibilities:
 
 ## Subagent Workflow
 
-When the user requests the subagent workflow, the main agent must coordinate exactly three platform-appropriate agents or role-scoped sessions:
+When the user requests the subagent workflow, the default flow coordinates these platform-appropriate agents or role-scoped sessions:
 
 - `leader`: analyze scope and create a plan only. The leader must not edit files.
 - `coder`: implement the smallest safe change inside the assigned scope.
@@ -30,13 +30,14 @@ When the user requests the subagent workflow, the main agent must coordinate exa
 
 Use Codex project-scoped custom agents from `.codex/agents/`, Claude Code project subagents from `.claude/agents/`, or Cursor Agent/Background Agent sessions guided by `.cursor/rules/`, depending on the current environment.
 
-The main agent must spawn, invoke, or instruct these agents explicitly, wait for their results, review their handoffs, and summarize the final result. Do not skip review.
+The main agent may add more bounded worker sessions only when the work splits into independent ownership scopes with low conflict risk. It must spawn, invoke, or instruct agents explicitly, wait for their results, review their handoffs, and summarize the final result. Do not skip reviewer coverage when the subagent workflow is used.
 
 ## Task Brief
 
 When dispatching a worker, include:
 
 - Task goal.
+- Delegation decision and rationale.
 - Ownership scope.
 - Files or directories they may edit.
 - Files or directories they should avoid.

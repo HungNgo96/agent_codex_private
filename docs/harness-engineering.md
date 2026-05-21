@@ -44,8 +44,8 @@ PowerShell 7 can also run the scripts with `pwsh` when it is installed.
 Options:
 
 - `-OutputDir`: output directory for generated reports. Default: `.harness-runs`.
-- `-FailOnWarnings`: converts warning checks to failures.
-- `-RunSampleApi`: starts the sample API on a free local port and probes the product and OpenAPI endpoints.
+- `-FailOnWarnings`: converts warning checks and environment warnings to failures.
+- `-RunSampleApi`: starts the sample API on a free local port and probes the product, OpenAPI, agent workflow, harness run, and employee endpoints.
 
 Exit codes:
 
@@ -78,14 +78,14 @@ Each check includes `id`, `name`, `status`, `severity`, `message`, and `evidence
 
 ## Current Checks
 
-- `required-files`: verifies the core template files exist.
+- `required-files`: verifies the core template files and platform agent assets exist.
 - `knowledge-store-layout`: verifies the repository knowledge store files and directories exist.
 - `markdown-sections`: verifies required sections in operating docs, prompts, and templates.
 - `repo-local-links`: verifies Markdown links to repository-local paths resolve.
 - `handoff-contract`: verifies the handoff template captures scope, evidence, verification, risks, integration notes, and next step.
-- `plan-contract`: verifies checked-in implementation plans include goal, architecture, tech stack, task checkboxes, and verification.
+- `plan-contract`: verifies checked-in execution plans include goal, architecture, tech stack, task checkboxes, and verification. Active and completed plans live under `docs/exec-plans`; `docs/superpowers/plans` remains a legacy compatibility area.
 - `sample-api-build`: builds the sample API.
-- `sample-api-endpoints`: in full mode with `-RunSampleApi`, probes `/api/v1/products`, `/api/v1/products/1`, and `/openapi/v1.json`.
+- `sample-api-endpoints`: in full mode with `-RunSampleApi`, probes `/api/v1/products`, `/api/v1/products/1`, `/api/v1/agent-workflows`, `/api/v1/harness-runs`, `/api/v1/harness-runs/20260521-100730`, `/api/v1/employees/storage`, `POST /api/v1/employees`, `GET /api/v1/employees/{id}`, and `/openapi/v1.json`.
 
 ## Git Safe Directory
 

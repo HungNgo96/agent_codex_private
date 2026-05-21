@@ -47,6 +47,21 @@ if ($FailOnWarnings -and @($checks | Where-Object { $_.Status -eq "Warning" }).C
     }
 }
 
+if ($FailOnWarnings -and @($environment | Where-Object { $_.Status -eq "Warning" }).Count -gt 0) {
+    foreach ($item in $environment | Where-Object { $_.Status -eq "Warning" }) {
+        $item.Status = "Error"
+        $item.Value = "FailOnWarnings: " + $item.Value
+    }
+
+    $checks += New-AgentHarnessCheck `
+        -Id "environment-warnings" `
+        -Name "Environment warnings" `
+        -Status "Failed" `
+        -Severity "Error" `
+        -Message "FailOnWarnings: one or more environment warnings were reported." `
+        -Evidence @($environment | Where-Object { $_.Status -eq "Error" } | ForEach-Object { "$($_.Name): $($_.Value)" })
+}
+
 $report = Write-AgentHarnessReport `
     -RepoRoot $repoRoot `
     -OutputDir $resolvedOutputDir `

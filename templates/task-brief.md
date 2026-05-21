@@ -25,6 +25,14 @@ Summarize relevant files, docs, constraints, and existing patterns.
 - Observable result 2.
 - Required verification.
 
+## Delegation Decision
+
+- Use subagents: Yes or No.
+- Rationale:
+- Critical path kept local:
+- Worker scopes:
+- Conflict risks:
+
 ## Team
 
 - Lead:

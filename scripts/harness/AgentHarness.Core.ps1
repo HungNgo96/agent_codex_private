@@ -121,6 +121,15 @@ function Test-AgentHarnessRequiredFiles {
         "AGENTS.md",
         "ARCHITECTURE.md",
         "README.md",
+        ".codex/agents/coder.toml",
+        ".codex/agents/hermes.toml",
+        ".codex/agents/leader.toml",
+        ".codex/agents/reviewer.toml",
+        ".claude/agents/coder.md",
+        ".claude/agents/leader.md",
+        ".claude/agents/reviewer.md",
+        ".cursor/rules/agent-team-operating-contract.mdc",
+        ".cursor/rules/agent-team-subagent-flow.mdc",
         "prompts/lead-agent.md",
         "prompts/worker-agent.md",
         "templates/task-brief.md",
@@ -230,7 +239,7 @@ function Test-AgentHarnessSectionContracts {
         @{ Path = "AGENTS.md"; Sections = @("Shared Rules", "Lead Agent Responsibilities", "Worker Agent Responsibilities", "Delegation Rules", "Handoff Requirements", "Completion Standard") },
         @{ Path = "prompts/lead-agent.md"; Sections = @("Responsibilities", "Subagent Workflow", "Task Brief", "Completion Standard") },
         @{ Path = "prompts/worker-agent.md"; Sections = @("Responsibilities", "Handoff") },
-        @{ Path = "templates/task-brief.md"; Sections = @("Goal", "Non-Goals", "Context", "Constraints", "Success Criteria", "Team", "Ownership", "Verification Plan") },
+        @{ Path = "templates/task-brief.md"; Sections = @("Goal", "Non-Goals", "Context", "Constraints", "Success Criteria", "Delegation Decision", "Team", "Ownership", "Verification Plan") },
         @{ Path = "templates/handoff-note.md"; Sections = @("Assigned Scope", "Completed Work", "Files Changed", "Evidence Gathered", "Commands Run", "Verification", "Risks and Assumptions", "Integration Notes", "Suggested Next Step") },
         @{ Path = "templates/implementation-plan.md"; Sections = @("Goal", "Files", "Tasks", "Verification", "Handoff") }
     )
@@ -383,18 +392,36 @@ function Test-AgentHarnessHandoffContract {
 function Test-AgentHarnessPlanContract {
     param([Parameter(Mandatory = $true)][string]$RepoRoot)
 
-    $planRoot = Join-Path $RepoRoot "docs/superpowers/plans"
-    if (-not (Test-Path -LiteralPath $planRoot)) {
+    $planRoots = @(
+        @{ Path = "docs/exec-plans/active"; Required = $true },
+        @{ Path = "docs/exec-plans/completed"; Required = $true },
+        @{ Path = "docs/superpowers/plans"; Required = $false }
+    )
+
+    $missingRoots = @()
+    $plans = @()
+    foreach ($planRoot in $planRoots) {
+        $fullPath = Join-Path $RepoRoot $planRoot.Path
+        if (-not (Test-Path -LiteralPath $fullPath)) {
+            if ($planRoot.Required) {
+                $missingRoots += $planRoot.Path
+            }
+            continue
+        }
+
+        $plans += @(Get-ChildItem -LiteralPath $fullPath -File -Filter "*.md" | Where-Object { $_.Name -ne "index.md" })
+    }
+
+    if ($missingRoots.Count -gt 0) {
         return New-AgentHarnessCheck `
             -Id "plan-contract" `
             -Name "Implementation plan contract" `
-            -Status "Warning" `
-            -Severity "Warning" `
-            -Message "No docs/superpowers/plans directory was found." `
-            -Evidence @("Create checked-in plans under docs/superpowers/plans when complex work is planned.")
+            -Status "Failed" `
+            -Severity "Error" `
+            -Message "One or more primary execution plan directories are missing." `
+            -Evidence $missingRoots
     }
 
-    $plans = @(Get-ChildItem -LiteralPath $planRoot -File -Filter "*.md")
     if ($plans.Count -eq 0) {
         return New-AgentHarnessCheck `
             -Id "plan-contract" `
@@ -402,7 +429,7 @@ function Test-AgentHarnessPlanContract {
             -Status "Warning" `
             -Severity "Warning" `
             -Message "No implementation plans were found." `
-            -Evidence @("docs/superpowers/plans")
+            -Evidence @("docs/exec-plans/active", "docs/exec-plans/completed", "docs/superpowers/plans")
     }
 
     $requiredTerms = @("Goal:", "Architecture:", "Tech Stack:", "- [ ]", "Verification")
@@ -434,7 +461,7 @@ function Test-AgentHarnessPlanContract {
         -Status "Passed" `
         -Severity "Info" `
         -Message "Implementation plans include required planning fields." `
-        -Evidence @("$($plans.Count) plan files checked.")
+        -Evidence @("$($plans.Count) plan files checked across primary and legacy plan directories.")
 }
 
 function Resolve-AgentHarnessRelativePath {
@@ -695,7 +722,7 @@ function Invoke-AgentHarnessSampleApiChecks {
             -Name "Sample API endpoints" `
             -Status "Passed" `
             -Severity "Info" `
-            -Message "The sample API responded to product and OpenAPI probes." `
+            -Message "The sample API responded to product, OpenAPI, agent workflow, harness run, and employee probes." `
             -Evidence @(
                 "$baseUrl/api/v1/products",
                 "$baseUrl/api/v1/products/1",
