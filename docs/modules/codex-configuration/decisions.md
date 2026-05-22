@@ -16,6 +16,14 @@ Reason: OpenAI Codex rules are designed for stable command execution policy. Thi
 
 Impact: Trusted project sessions can run routine verification with fewer prompts while still preserving user work. Rules do not replace sandboxing, approvals, or reviewer coverage.
 
+## 2026-05-22 - Add One Repo-Local Coding Skill
+
+Decision: Add `.agents/skills/agent-ai-feature-development/SKILL.md` as the single repo-local Codex skill for repeatable feature and bug-fix work.
+
+Reason: OpenAI Codex skills are the right format for reusable workflows because Codex can discover metadata cheaply and load full instructions only when the task matches. The AgentTeams coding flow is repeated enough to justify a skill, while additional skills would add context noise before there is a clear need.
+
+Impact: Codex users can invoke `$agent-ai-feature-development` for coding tasks that need planning, module docs, optional leader/coder/reviewer delegation, implementation, verification, and final reporting.
+
 ## 2026-05-22 - Keep Hooks Out Until Needed
 
 Decision: Do not add `.codex/hooks.json` yet.

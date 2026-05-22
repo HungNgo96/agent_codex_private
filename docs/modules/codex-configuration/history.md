@@ -13,3 +13,10 @@
 - Files changed: `.codex/rules/default.rules`, `docs/modules/codex-configuration/*`.
 - Verification: Check rule docs against OpenAI Codex Rules behavior, validate local Markdown links, and inspect git diff.
 - Follow-up: Test individual policies with `codex execpolicy check` whenever a rule changes.
+
+## 2026-05-22 - Add Codex Coding Skill
+
+- Scope: Add a repo-local Codex skill for the repeatable AgentTeams feature-development workflow.
+- Files changed: `.agents/skills/agent-ai-feature-development/SKILL.md`, `README.md`, `docs/codex-flow-audit.md`, and `docs/modules/codex-configuration/*`.
+- Verification: Check skill metadata, validate local Markdown links, and inspect git diff.
+- Follow-up: Add more skills only when a repeated workflow has clear trigger wording and cannot stay simpler as docs.

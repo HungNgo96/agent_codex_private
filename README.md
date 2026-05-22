@@ -21,11 +21,12 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 2. Read `AGENTS.md` to understand the shared operating contract.
 3. Read `docs/agent-ai-task-flow.md` and the relevant module folder under `docs/modules/`.
 4. Read `docs/codex-flow-audit.md` when running the template with Codex.
-5. Choose the relevant workflow from `workflows/`.
-6. Have the lead create a task brief using `templates/task-brief.md`.
-7. Dispatch workers only when work splits into bounded, independent scopes.
-8. Collect handoffs with `templates/handoff-note.md`.
-9. Run final integration and verification before reporting completion.
+5. For repeatable feature or bug-fix work in Codex, use `$agent-ai-feature-development`.
+6. Choose the relevant workflow from `workflows/`.
+7. Have the lead create a task brief using `templates/task-brief.md`.
+8. Dispatch workers only when work splits into bounded, independent scopes.
+9. Collect handoffs with `templates/handoff-note.md`.
+10. Run final integration and verification before reporting completion.
 
 ## Platform Setup
 
@@ -46,6 +47,14 @@ Codex only spawns subagents when you explicitly ask it to. This template include
 Use `prompts/lead-agent.md` as the main coordination prompt, then ask for the subagent workflow when you want this three-agent flow. Codex handles spawning subagents, routing follow-up instructions, waiting for results, closing completed threads, and returning a consolidated response. Subagents inherit the active sandbox policy and approval controls from the parent session.
 
 For the Codex-specific audit and implementation flow, see `docs/codex-flow-audit.md`.
+
+### Codex Skills
+
+Codex scans repo-local skills from `.agents/skills/` when launched inside the repository. This template includes one intentionally narrow skill:
+
+- `$agent-ai-feature-development`: repeatable feature or bug-fix workflow that ties together module docs, scope planning, optional leader/coder/reviewer delegation, implementation, verification, and final reporting.
+
+Keep skills focused on one reusable job. Do not add repo-local skills for one-off conventions that already fit in `AGENTS.md`, module docs, workflows, or templates.
 
 ### Cursor Agent Flow
 
@@ -82,6 +91,7 @@ Do not skip review.
 - `ARCHITECTURE.md`: system overview and knowledge-store entry point.
 - `CLAUDE.md`: Claude Code project memory adapter for the shared contract.
 - `.codex/agents/`: Codex custom project agents for the explicit subagent workflow.
+- `.agents/skills/`: Codex repo-local skills for repeatable coding workflows.
 - `.claude/agents/`: Claude Code project subagents for the explicit subagent workflow.
 - `.cursor/rules/`: Cursor project rules adapter for the shared contract.
 - `docs/modules/`: module ownership, rules, decisions, and task history.

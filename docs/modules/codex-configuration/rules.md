@@ -8,7 +8,12 @@
 - Keep `web_search = "cached"` unless the task explicitly needs live, current information.
 - Keep `agents.max_depth = 1` unless recursive delegation is explicitly needed and reviewed.
 - Keep `agents.max_threads` low enough that handoffs remain reviewable.
-- Avoid repo-local skills unless they are narrow, frequently reused, and have `name` plus `description` metadata.
+- Keep repo-local skills under `.agents/skills/<skill-name>/SKILL.md`.
+- Give every skill `name` and `description` metadata.
+- Keep each skill focused on one reusable job.
+- Prefer instruction-only skills unless deterministic scripts or external tooling are required.
+- Write skill descriptions with clear trigger wording and explicit exclusions.
+- Avoid broad skill/plugin installs that crowd the initial skill list or duplicate project docs.
 - Keep project-local command rules in `.codex/rules/default.rules`.
 - Use `allow` rules only for routine read-only or verification commands.
 - Use `prompt` rules for commands that publish, delete, clean, install globally, or mutate state outside the workspace.
