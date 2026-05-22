@@ -108,6 +108,17 @@ Each worker assignment must include:
 
 Workers must understand they are not alone in the codebase. They must not revert changes outside their assigned scope.
 
+## Teammate-Ready Standard
+
+Every agent assignment should be clear enough for a new teammate to execute without guessing:
+
+- Context to read: `AGENTS.md`, relevant workflow, and target `docs/modules/<module>/`.
+- Ownership: exact editable files, directories, or question scope.
+- Avoid scope: files, modules, decisions, or commands the worker must not touch.
+- Shared contracts: APIs, schemas, fixtures, prompts, docs, or behavior that must remain compatible.
+- Verification: exact command, manual check, or skipped-verification reason.
+- Handoff: scope completed, files changed or evidence gathered, commands run, verification, risks, integration notes, and suggested next step.
+
 ## Phase 5: Worker Execution And Handoff
 
 Workers stay inside the assigned scope. If completing the task requires changes outside that scope, the worker stops and reports the required scope change.
