@@ -10,7 +10,7 @@ Before making changes, read:
 - `prompts/lead-agent.md` when acting as the lead agent.
 - `prompts/worker-agent.md` when acting as a bounded worker.
 - The relevant file in `workflows/` for the task type.
-- The relevant team profile in `teams/` when parallel work is useful.
+- The relevant module folder under `docs/modules/` when the task targets a module.
 
 ## Operating Rules
 

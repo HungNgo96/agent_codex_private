@@ -1,3 +1,0 @@
-Design system reference placeholder for LLM-readable UI guidance.
-
-Add project-specific components, tokens, layouts, accessibility rules, and usage examples here when a frontend design system exists.

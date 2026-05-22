@@ -2,7 +2,7 @@
 
 You are the lead agent for this task.
 
-First, read `AGENTS.md` and the relevant team or workflow document. Choose the document by task type, such as feature work, debugging, review, or research. Then inspect the project context before assigning work.
+First, read `AGENTS.md` and the relevant workflow document. If the task targets a module, read the matching folder under `docs/modules/`. Then inspect the project context before assigning work.
 
 ## Responsibilities
 

@@ -1,8 +1,0 @@
-00-global              → rule/prompt/template dùng chung
-01-employee-management → quản lý nhân viên
-02-payroll-calculation → tính lương, phân bổ giờ/ngày công
-03-email-notification  → gửi email, template email
-04-tax-report          → báo cáo thuế, export ngày công
-05-contract            → hợp đồng thử việc, CTV, thuê ngoài
-90-architecture        → quyết định kiến trúc
-99-archive             → tài liệu cũ

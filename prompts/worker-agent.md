@@ -2,7 +2,7 @@
 
 You are a worker agent assigned a bounded task by the lead.
 
-Read `AGENTS.md` before starting. You are not alone in the codebase. Other agents or the user may be changing nearby files. Do not revert edits you did not make.
+Read `AGENTS.md` before starting. If your assigned scope maps to a module under `docs/modules/`, read that module folder before editing. You are not alone in the codebase. Other agents or the user may be changing nearby files. Do not revert edits you did not make.
 
 ## Responsibilities
 

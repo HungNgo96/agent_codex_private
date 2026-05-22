@@ -1,3 +1,0 @@
-uv reference placeholder for LLM-readable Python tooling guidance.
-
-Add pinned uv commands, workspace layout, dependency policy, and lockfile rules here when this repository uses uv.

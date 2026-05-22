@@ -1,7 +1,6 @@
-# agent_codex_private
 # Agent Teams Template
 
-Reusable conventions for coordinating lead and worker agents on software projects, with adapters for Codex, Cursor, and Claude Code.
+Reusable conventions for coordinating lead and worker agents on software projects, with Codex-first defaults and thin adapters for Cursor and Claude Code.
 
 This template is not a custom multi-agent runtime. It gives you the operating docs, prompts, workflows, and handoff formats needed to run agent-team work using your coding agent environment.
 
@@ -20,28 +19,26 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 
 1. Copy this template into the root of a project.
 2. Read `AGENTS.md` to understand the shared operating contract.
-3. Read `ARCHITECTURE.md` and the relevant knowledge-store docs under `docs/`.
+3. Read `docs/agent-ai-task-flow.md` and the relevant module folder under `docs/modules/`.
 4. Read `docs/codex-flow-audit.md` when running the template with Codex.
-5. Pick a team from `teams/`.
-6. Start a lead session with `prompts/lead-agent.md`.
-7. Have the lead create a task brief using `templates/task-brief.md`.
-8. Dispatch workers with `prompts/worker-agent.md` and a bounded ownership scope.
-9. Collect handoffs with `templates/handoff-note.md`.
-10. Run final integration and verification before reporting completion.
+5. Choose the relevant workflow from `workflows/`.
+6. Have the lead create a task brief using `templates/task-brief.md`.
+7. Dispatch workers only when work splits into bounded, independent scopes.
+8. Collect handoffs with `templates/handoff-note.md`.
+9. Run final integration and verification before reporting completion.
 
 ## Platform Setup
 
-- Codex: use `AGENTS.md` plus the prompt, workflow, team, and template files in this repo.
+- Codex: use `AGENTS.md` plus the prompt, workflow, module-history, and template files in this repo.
 - Cursor: use `.cursor/rules/agent-team-operating-contract.mdc`, which points Cursor Agent back to the shared contract.
 - Claude Code: use `CLAUDE.md`, which points Claude Code back to the shared contract.
 
-Codex reliably loads `AGENTS.md` as project guidance. Treat the rest of this repository as explicit task context: mention or read the relevant prompt, workflow, team, template, or doc before relying on it in a Codex run.
+Codex reliably loads `AGENTS.md` as project guidance. Treat the rest of this repository as explicit task context: mention or read the relevant prompt, workflow, module folder, template, or doc before relying on it in a Codex run.
 
 ### Codex Subagents
 
 Codex only spawns subagents when you explicitly ask it to. This template includes project-scoped custom agents in `.codex/agents/`:
 
-- `hermes`: memory-aware, skill-aware coordinator inspired by Hermes Agent.
 - `leader`: analyze scope and create a plan only.
 - `coder`: implement the smallest safe change inside the assigned scope.
 - `reviewer`: review the final git diff.
@@ -49,8 +46,6 @@ Codex only spawns subagents when you explicitly ask it to. This template include
 Use `prompts/lead-agent.md` as the main coordination prompt, then ask for the subagent workflow when you want this three-agent flow. Codex handles spawning subagents, routing follow-up instructions, waiting for results, closing completed threads, and returning a consolidated response. Subagents inherit the active sandbox policy and approval controls from the parent session.
 
 For the Codex-specific audit and implementation flow, see `docs/codex-flow-audit.md`.
-
-For the Hermes-inspired Codex flow, see `docs/hermes-codex-flow.md`. This template borrows Hermes Agent ideas such as memory-aware work, skill-aware execution, reflection, and subagent delegation, but it does not install or run the Hermes runtime.
 
 ### Cursor Agent Flow
 
@@ -89,51 +84,11 @@ Do not skip review.
 - `.codex/agents/`: Codex custom project agents for the explicit subagent workflow.
 - `.claude/agents/`: Claude Code project subagents for the explicit subagent workflow.
 - `.cursor/rules/`: Cursor project rules adapter for the shared contract.
-- `docs/`: in-repository knowledge store for architecture, design, product specs, plans, generated references, reliability, security, and quality guidance.
+- `docs/modules/`: module ownership, rules, decisions, and task history.
 - `docs/codex-flow-audit.md`: Codex-specific context-loading, subagent, skill, sandbox, and verification alignment notes.
-- `docs/hermes-codex-flow.md`: Hermes-inspired Codex workflow notes.
-- `teams/`: reusable team compositions.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
 - `workflows/`: playbooks for common work types.
 - `templates/`: task, handoff, review, and plan formats.
-- `examples/`: complete examples of agent-team usage.
-- `scripts/`: local harness and optional future orchestration helpers.
-
-## In-Repository Knowledge Store
-
-Use this layout for durable context that agents should read before making decisions:
-
-```text
-AGENTS.md
-ARCHITECTURE.md
-docs/
-|-- design-docs/
-|   |-- index.md
-|   |-- core-beliefs.md
-|   `-- ...
-|-- exec-plans/
-|   |-- active/
-|   |-- completed/
-|   `-- tech-debt-tracker.md
-|-- generated/
-|   `-- db-schema.md
-|-- product-specs/
-|   |-- index.md
-|   |-- new-user-onboarding.md
-|   `-- ...
-|-- references/
-|   |-- design-system-reference-llms.txt
-|   |-- nixpacks-llms.txt
-|   |-- uv-llms.txt
-|   `-- ...
-|-- DESIGN.md
-|-- FRONTEND.md
-|-- PLANS.md
-|-- PRODUCT_SENSE.md
-|-- QUALITY_SCORE.md
-|-- RELIABILITY.md
-`-- SECURITY.md
-```
 
 ## Operating Model
 
@@ -141,26 +96,14 @@ The lead agent owns decomposition, assignment, integration, and final verificati
 
 Every worker must assume other agents may be editing the repo. Workers should stay inside their assigned scope, avoid reverting unrelated changes, and make handoffs clear enough for the lead to integrate without guessing.
 
+## Module Task History
+
+Use `docs/modules/<module>/` to keep durable context for targeted work. Each module can keep `README.md`, `rules.md`, `decisions.md`, and `history.md`. Before changing a module, read its folder; after meaningful work, append one short `history.md` entry.
+
 ## Verification Standard
 
 Do not claim completion without evidence. Depending on the task, evidence can include tests, builds, linting, manual reproduction, browser checks, source citations, or local file references.
 
-## Local Harness
-
-Run the local QA harness to validate the agent-team docs, templates, implementation plans, and sample API:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Quick
-```
-
-For full verification with endpoint probes:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Full -RunSampleApi
-```
-
-See `docs/harness-engineering.md` for the check list and report format.
-
 ## Future Automation
 
-Add orchestration scripts only after the workflow is proven manually and the harness can validate the expected contracts.
+Add orchestration scripts only after the workflow is proven manually and the automation has a clear owner.

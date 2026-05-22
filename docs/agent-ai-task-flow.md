@@ -9,8 +9,8 @@ This document describes the flow for handling a new task from a user. It applies
 - [`prompts/worker-agent.md`](../prompts/worker-agent.md): worker agent prompt.
 - [`templates/task-brief.md`](../templates/task-brief.md): task brief and delegation decision format.
 - [`templates/handoff-note.md`](../templates/handoff-note.md): worker handoff format.
-- [`docs/harness-engineering.md`](harness-engineering.md): local harness for verifying docs, contracts, plans, and the sample API.
 - [`docs/codex-flow-audit.md`](codex-flow-audit.md): Codex-specific guidance for context loading, subagents, skills, sandboxing, and docs-only verification.
+- [`docs/modules/README.md`](modules/README.md): module ownership, rules, decisions, and task history convention.
 
 ## End-to-End Flow
 
@@ -54,8 +54,9 @@ The lead agent starts by reading the user's request and identifying:
 - Observable or verifiable success criteria.
 - Editable scope and avoid scope.
 - Contract files that must be read before deciding how to proceed.
+- Target module history under `docs/modules/` when the task maps to a module.
 
-The lead must read `AGENTS.md` and explicitly read or attach the relevant workflow, team, prompt, template, or doc before assigning work. In Codex, do not assume these supporting files are loaded automatically just because they exist in the repository. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
+The lead must read `AGENTS.md` and explicitly read or attach the relevant workflow, prompt, template, module history, or doc before assigning work. In Codex, do not assume these supporting files are loaded automatically just because they exist in the repository. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
 
 ## Phase 2: Delegation Decision
 
@@ -135,22 +136,10 @@ Verification depends on the task, but this flow prefers:
 
 - Focused tests for the changed scope.
 - Build or lint checks when code changes.
-- Harness checks when docs, prompts, templates, plans, scripts, or the sample API change.
+- Static checks when docs, prompts, templates, or platform adapters change.
 - Manual checks when the task affects UI, workflow, or endpoint behavior.
 
-In this repository, run the quick harness with:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Quick
-```
-
-Run endpoint probes with:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Full -RunSampleApi
-```
-
-For docs-only changes that must exclude `src/`, do not use the sample API harness unless that scope restriction is lifted. Prefer static checks for the changed Markdown, Codex agent TOML metadata, skill metadata, and repository-local links.
+For documentation workflow changes, verify changed Markdown links, Codex agent TOML metadata, skill metadata if skills are present, and repository-local references.
 
 Do not claim completion before verification runs. If verification cannot run, the final response must explain why and state what remains unverified.
 
@@ -164,6 +153,10 @@ The lead's final response should be concise and evidence-based:
 - Next step, if needed.
 
 If subagents were used, the final response should summarize the handoffs and state how the lead reviewed and integrated them.
+
+## Phase 9: Module History
+
+After meaningful targeted work, append one short entry to `docs/modules/<module>/history.md` with scope, files changed, verification, and follow-up. Do not create history entries for trivial formatting or exploratory work that has no durable value.
 
 ## Completion Gate
 

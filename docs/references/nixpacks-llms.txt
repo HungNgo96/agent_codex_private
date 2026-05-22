@@ -1,3 +1,0 @@
-Nixpacks reference placeholder for LLM-readable deployment guidance.
-
-Add pinned Nixpacks behavior, build phases, environment variables, and known deployment constraints here when this repository uses Nixpacks.
