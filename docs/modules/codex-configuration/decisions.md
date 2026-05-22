@@ -2,11 +2,11 @@
 
 ## 2026-05-22 - Add Conservative Project Codex Defaults
 
-Decision: Add project-scoped Codex defaults with workspace-write sandboxing, on-request approvals, cached web search, shallow subagent nesting, and separate plan/code/review profiles.
+Decision: Add project-scoped Codex defaults with workspace-write sandboxing, on-request approvals, cached web search, and shallow subagent nesting. Keep separate plan/code/review profiles in user-level Codex config for the current runtime.
 
-Reason: OpenAI Codex docs describe layered config precedence, trusted project `.codex/` loading, sandbox plus approval controls, subagent concurrency limits, and profile-scoped overrides. Encoding the defaults keeps coding sessions predictable without requiring broad permissions.
+Reason: OpenAI Codex docs describe layered config precedence, trusted project `.codex/` loading, sandbox plus approval controls, subagent concurrency limits, and profile-scoped overrides. In this environment, profile shortcuts are configured at user level, while the project template should keep only shared defaults that are safe for every checkout.
 
-Impact: Codex users can run the same repository with a consistent configuration baseline and choose profiles for planning, implementation, or review.
+Impact: Codex users can run the same repository with a consistent configuration baseline. Users who want `plan`, `code`, and `review` shortcuts configure those profiles once in their user-level Codex config.
 
 ## 2026-05-22 - Add Conservative Project Command Rules
 

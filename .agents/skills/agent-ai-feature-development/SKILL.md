@@ -1,6 +1,6 @@
 ---
 name: agent-ai-feature-development
-description: Use when implementing a feature or bug fix with the AgentTeams coding flow: plan scope, read module docs, assign leader/coder/reviewer responsibilities when requested, implement narrowly, verify, review, and report handoff evidence. Do not use for one-line edits, docs-only questions, or tasks that do not touch project code.
+description: Use when implementing a feature or bug fix with the AgentTeams coding flow plan scope, read module docs, assign leader/coder/reviewer responsibilities when requested, implement narrowly, verify, review, and report handoff evidence. Do not use for one-line edits, docs-only questions, or tasks that do not touch project code.
 ---
 
 # Agent AI Feature Development

@@ -26,13 +26,13 @@ This module owns Codex configuration guidance for the AgentTeams template.
 
 ## Configuration Shape
 
-Project defaults live in `.codex/config.toml`. Use profiles to switch operating mode without rewriting instructions:
+Project defaults live in `.codex/config.toml`. Profile definitions are intentionally not kept in the project template because Codex profile configuration is user-level in the current setup. Keep `plan`, `code`, and `review` profiles in the user's Codex config when those shortcuts are needed:
 
 - `--profile plan`: read-only planning and research.
 - `--profile code`: normal implementation with workspace writes.
 - `--profile review`: read-only final review.
 
-The default project mode is intentionally conservative: `approval_policy = "on-request"`, `sandbox_mode = "workspace-write"`, and `web_search = "cached"`.
+The default project mode is intentionally conservative: `approval_policy = "on-request"`, `sandbox_mode = "workspace-write"`, and `web_search = "cached"`. The project file owns shared defaults, command rules, and agent fan-out limits; user-level config owns personal profile shortcuts.
 
 ## Command Rules
 
@@ -62,9 +62,9 @@ The template includes `$agent-ai-feature-development` as the single repo-local c
 ## Practical Coding Flow
 
 1. Start at the repo root so Codex can find the project root and `AGENTS.md`.
-2. Use `--profile plan` or the `leader` agent for scope analysis.
-3. Use `--profile code` or the `coder` agent for implementation.
-4. Use `--profile review` or the `reviewer` agent for final diff review.
+2. Use a user-level `--profile plan` or the `leader` agent for scope analysis.
+3. Use a user-level `--profile code` or the `coder` agent for implementation.
+4. Use a user-level `--profile review` or the `reviewer` agent for final diff review.
 5. Keep subagent fan-out shallow: direct children only, no recursive delegation.
 6. Use `$agent-ai-feature-development` for repeatable feature or bug-fix coding work.
 7. Prefer repo docs and module history over broad skill/plugin installs.

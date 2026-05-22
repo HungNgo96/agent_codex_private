@@ -20,7 +20,7 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 - `AGENTS.md` is the right always-on project contract. Codex reads `AGENTS.md` files before work and layers project guidance from the project root down to the current working directory.
 - `.codex/agents/*.toml` matches the Codex custom agent shape. Each project agent defines `name`, `description`, and `developer_instructions`.
 - `.agents/skills/agent-ai-feature-development/SKILL.md` matches the Codex repo-local skill shape with `name` and `description` metadata.
-- `.codex/config.toml` keeps subagent fan-out bounded with `max_threads = 4` and `max_depth = 1`, and provides plan/code/review profiles.
+- `.codex/config.toml` keeps subagent fan-out bounded with `max_threads = 4` and `max_depth = 1`. The `plan`, `code`, and `review` profile shortcuts are user-level config in this setup, not project-template settings.
 - `.codex/rules/default.rules` adds conservative command policy for routine verification and destructive-command protection.
 - `prompts/`, `workflows/`, and `templates/` give the lead enough structure to create bounded task briefs, collect handoffs, and run verification.
 - `docs/modules/` preserves module-level task history without the larger `docs/ai` knowledge-store layer.
@@ -48,9 +48,11 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 
 ## Configuration Profiles
 
-- `plan`: read-only planning and research with higher reasoning.
-- `code`: normal implementation with workspace writes and on-request approvals.
-- `review`: read-only final diff review with higher reasoning.
+- `plan`: user-level shortcut for read-only planning and research with higher reasoning.
+- `code`: user-level shortcut for normal implementation with workspace writes and on-request approvals.
+- `review`: user-level shortcut for read-only final diff review with higher reasoning.
+
+The project template documents these profile names as conventions only. Keep their concrete definitions in the user's Codex config so the repository does not depend on unsupported project-level profile behavior.
 
 ## Out Of Scope
 

@@ -59,7 +59,7 @@ The lead agent starts by reading the user's request and identifying:
 
 The lead must read `AGENTS.md` and explicitly read or attach the relevant workflow, prompt, template, module history, or doc before assigning work. In Codex, do not assume these supporting files are loaded automatically just because they exist in the repository. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
 
-For Codex CLI work, use the matching configuration profile when possible: `plan` for read-only planning, `code` for implementation, and `review` for final inspection.
+For Codex CLI work, use the matching user-level configuration profile when available: `plan` for read-only planning, `code` for implementation, and `review` for final inspection. The project template keeps role agents and shared defaults in the repository, while concrete profile definitions live in user-level Codex config for this setup.
 
 ## Phase 2: Delegation Decision
 

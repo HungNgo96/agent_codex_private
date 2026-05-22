@@ -1,5 +1,12 @@
 # Codex Configuration History
 
+## 2026-05-22 - Clarify User-Level Codex Profiles
+
+- Scope: Clarify that `plan`, `code`, and `review` profiles are user-level shortcuts in the current setup, while project config keeps shared defaults, agents, rules, and fan-out limits.
+- Files changed: `docs/modules/codex-configuration/*`, `docs/codex-flow-audit.md`, and `docs/agent-ai-task-flow.md`.
+- Verification: Search profile references and inspect git diff.
+- Follow-up: Keep `.codex/config.toml` profile blocks out of the project template unless Codex supports project-level profile definitions for this use case.
+
 ## 2026-05-22 - Optimize Codex Coding Configuration
 
 - Scope: Add Codex project defaults and document configuration choices for Agent AI coding flow.
