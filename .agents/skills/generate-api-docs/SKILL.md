@@ -1,4 +1,5 @@
 ---
+name: generate-api-docs
 description: Create comprehensive API documentation from source code
 ---
 

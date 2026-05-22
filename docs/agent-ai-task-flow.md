@@ -10,6 +10,7 @@ This document describes the flow for handling a new task from a user. It applies
 - [`templates/task-brief.md`](../templates/task-brief.md): task brief and delegation decision format.
 - [`templates/handoff-note.md`](../templates/handoff-note.md): worker handoff format.
 - [`docs/harness-engineering.md`](harness-engineering.md): local harness for verifying docs, contracts, plans, and the sample API.
+- [`docs/codex-flow-audit.md`](codex-flow-audit.md): Codex-specific guidance for context loading, subagents, skills, sandboxing, and docs-only verification.
 
 ## End-to-End Flow
 
@@ -54,7 +55,7 @@ The lead agent starts by reading the user's request and identifying:
 - Editable scope and avoid scope.
 - Contract files that must be read before deciding how to proceed.
 
-The lead must read `AGENTS.md` and the relevant workflow or team document before assigning work. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
+The lead must read `AGENTS.md` and explicitly read or attach the relevant workflow, team, prompt, template, or doc before assigning work. In Codex, do not assume these supporting files are loaded automatically just because they exist in the repository. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
 
 ## Phase 2: Delegation Decision
 
@@ -78,11 +79,15 @@ When the user requests the subagent workflow, the default flow uses:
 
 The lead may add more workers when scopes are independent and conflict risk is low. Reviewer coverage must not be skipped when the subagent workflow is used.
 
+Codex spawns subagents only when explicitly requested. Spawned agents inherit the active parent session sandbox and approval behavior, so the lead must keep permission assumptions in the task brief and final report.
+
 Platform mapping:
 
 - Codex uses custom agents in `.codex/agents/`.
 - Claude Code uses project subagents in `.claude/agents/`.
 - Cursor uses rules in `.cursor/rules/` and Agent or Background Agent sessions.
+
+Codex custom agent files must stay narrow and define `name`, `description`, and `developer_instructions`. Optional model and sandbox fields are role defaults, not a guarantee that live parent-session overrides cannot apply.
 
 ## Phase 4: Task Brief And Assignment
 
@@ -144,6 +149,8 @@ Run endpoint probes with:
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\Invoke-AgentHarness.ps1 -Mode Full -RunSampleApi
 ```
+
+For docs-only changes that must exclude `src/`, do not use the sample API harness unless that scope restriction is lifted. Prefer static checks for the changed Markdown, Codex agent TOML metadata, skill metadata, and repository-local links.
 
 Do not claim completion before verification runs. If verification cannot run, the final response must explain why and state what remains unverified.
 

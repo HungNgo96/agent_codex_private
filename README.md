@@ -21,18 +21,21 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 1. Copy this template into the root of a project.
 2. Read `AGENTS.md` to understand the shared operating contract.
 3. Read `ARCHITECTURE.md` and the relevant knowledge-store docs under `docs/`.
-4. Pick a team from `teams/`.
-5. Start a lead session with `prompts/lead-agent.md`.
-6. Have the lead create a task brief using `templates/task-brief.md`.
-7. Dispatch workers with `prompts/worker-agent.md` and a bounded ownership scope.
-8. Collect handoffs with `templates/handoff-note.md`.
-9. Run final integration and verification before reporting completion.
+4. Read `docs/codex-flow-audit.md` when running the template with Codex.
+5. Pick a team from `teams/`.
+6. Start a lead session with `prompts/lead-agent.md`.
+7. Have the lead create a task brief using `templates/task-brief.md`.
+8. Dispatch workers with `prompts/worker-agent.md` and a bounded ownership scope.
+9. Collect handoffs with `templates/handoff-note.md`.
+10. Run final integration and verification before reporting completion.
 
 ## Platform Setup
 
 - Codex: use `AGENTS.md` plus the prompt, workflow, team, and template files in this repo.
 - Cursor: use `.cursor/rules/agent-team-operating-contract.mdc`, which points Cursor Agent back to the shared contract.
 - Claude Code: use `CLAUDE.md`, which points Claude Code back to the shared contract.
+
+Codex reliably loads `AGENTS.md` as project guidance. Treat the rest of this repository as explicit task context: mention or read the relevant prompt, workflow, team, template, or doc before relying on it in a Codex run.
 
 ### Codex Subagents
 
@@ -44,6 +47,8 @@ Codex only spawns subagents when you explicitly ask it to. This template include
 - `reviewer`: review the final git diff.
 
 Use `prompts/lead-agent.md` as the main coordination prompt, then ask for the subagent workflow when you want this three-agent flow. Codex handles spawning subagents, routing follow-up instructions, waiting for results, closing completed threads, and returning a consolidated response. Subagents inherit the active sandbox policy and approval controls from the parent session.
+
+For the Codex-specific audit and implementation flow, see `docs/codex-flow-audit.md`.
 
 For the Hermes-inspired Codex flow, see `docs/hermes-codex-flow.md`. This template borrows Hermes Agent ideas such as memory-aware work, skill-aware execution, reflection, and subagent delegation, but it does not install or run the Hermes runtime.
 
@@ -85,6 +90,7 @@ Do not skip review.
 - `.claude/agents/`: Claude Code project subagents for the explicit subagent workflow.
 - `.cursor/rules/`: Cursor project rules adapter for the shared contract.
 - `docs/`: in-repository knowledge store for architecture, design, product specs, plans, generated references, reliability, security, and quality guidance.
+- `docs/codex-flow-audit.md`: Codex-specific context-loading, subagent, skill, sandbox, and verification alignment notes.
 - `docs/hermes-codex-flow.md`: Hermes-inspired Codex workflow notes.
 - `teams/`: reusable team compositions.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
