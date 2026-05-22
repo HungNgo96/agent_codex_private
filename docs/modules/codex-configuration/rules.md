@@ -9,4 +9,11 @@
 - Keep `agents.max_depth = 1` unless recursive delegation is explicitly needed and reviewed.
 - Keep `agents.max_threads` low enough that handoffs remain reviewable.
 - Avoid repo-local skills unless they are narrow, frequently reused, and have `name` plus `description` metadata.
-- Add hooks or command rules only when they enforce a stable repeated policy.
+- Keep project-local command rules in `.codex/rules/default.rules`.
+- Use `allow` rules only for routine read-only or verification commands.
+- Use `prompt` rules for commands that publish, delete, clean, install globally, or mutate state outside the workspace.
+- Use `forbidden` rules for commands that conflict with the operating contract, especially broad destructive git operations.
+- Include `match` and `not_match` examples for every non-trivial `prefix_rule`.
+- Test rules with `codex execpolicy check --pretty --rules .codex/rules/default.rules -- <command>` before relying on them.
+- Do not use command rules to bypass review. The reviewer role still checks the final diff and verification evidence.
+- Add hooks only when they enforce a stable repeated policy that command rules cannot cover.

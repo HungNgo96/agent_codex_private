@@ -8,10 +8,18 @@ Reason: OpenAI Codex docs describe layered config precedence, trusted project `.
 
 Impact: Codex users can run the same repository with a consistent configuration baseline and choose profiles for planning, implementation, or review.
 
-## 2026-05-22 - Keep Hooks And Rules Out Until Needed
+## 2026-05-22 - Add Conservative Project Command Rules
 
-Decision: Do not add `.codex/hooks.json` or `.codex/rules/` yet.
+Decision: Add `.codex/rules/default.rules` for a small set of project-local Codex command policies.
 
-Reason: Hooks and command rules are useful but add another trust and maintenance surface. The current workflow can be enforced through `AGENTS.md`, profiles, and reviewer coverage.
+Reason: OpenAI Codex rules are designed for stable command execution policy. This template repeatedly needs safe repo search, status, diff, build, and test commands, while destructive git operations should remain blocked or explicitly prompted.
 
-Impact: Future hooks or rules should be added only after a repeated manual policy is stable.
+Impact: Trusted project sessions can run routine verification with fewer prompts while still preserving user work. Rules do not replace sandboxing, approvals, or reviewer coverage.
+
+## 2026-05-22 - Keep Hooks Out Until Needed
+
+Decision: Do not add `.codex/hooks.json` yet.
+
+Reason: Hooks add another execution surface. The current workflow can be enforced through `AGENTS.md`, profiles, command rules, and reviewer coverage.
+
+Impact: Future hooks should be added only after a repeated manual policy is stable and cannot be handled by command rules.
