@@ -7,6 +7,11 @@ public sealed record CreateEmployeeRequest(
     string Department,
     string JobTitle);
 
+public sealed record CreateEmployeeBasicInfoRequest(
+    string EmployeeCode,
+    string FullName,
+    string Email);
+
 public sealed record UpdateEmployeeRequest(
     string FullName,
     string Email,

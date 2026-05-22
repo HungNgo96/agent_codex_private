@@ -48,6 +48,30 @@ public sealed class EmployeeUseCaseTests
     }
 
     [Fact]
+    public async Task CreateEmployeeBasicInfoUsesDefaultProfileFields()
+    {
+        var useCase = new CreateEmployeeBasicInfoUseCase(new CreateEmployeeUseCase(
+            new FakeEmployeeRepository(),
+            new FakeEmployeeUnitOfWork(),
+            new FixedEmployeeClock()));
+
+        var result = await useCase.ExecuteAsync(
+            new CreateEmployeeBasicInfoRequest(
+                "EMP-003",
+                "Le Van C",
+                "le.van.c@example.com"),
+            CancellationToken.None);
+
+        Assert.Equal(EmployeeResultStatus.Success, result.Status);
+        Assert.NotNull(result.Value);
+        Assert.Equal("EMP-003", result.Value.EmployeeCode);
+        Assert.Equal("Le Van C", result.Value.FullName);
+        Assert.Equal("le.van.c@example.com", result.Value.Email);
+        Assert.Equal("General", result.Value.Department);
+        Assert.Equal("Employee", result.Value.JobTitle);
+    }
+
+    [Fact]
     public async Task ListEmployeesReturnsPagedSearchResults()
     {
         var repository = new FakeEmployeeRepository();

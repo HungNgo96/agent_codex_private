@@ -58,6 +58,38 @@ public sealed class EmployeeApiTests
     }
 
     [Fact]
+    public async Task CreateEmployeeBasicInfoPersistsDefaultsAndCanBeReadBack()
+    {
+        await using var factory = new EmployeeApiFactory();
+        using var client = factory.CreateClient();
+
+        var request = new CreateEmployeeBasicInfoRequest(
+            EmployeeCode: "EMP-003",
+            FullName: "Le Van C",
+            Email: "le.van.c@example.com");
+
+        var createResponse = await client.PostAsJsonAsync("/api/v1/employees/basic-info", request);
+        var created = await createResponse.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+        Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
+        Assert.NotNull(created);
+        Assert.Equal("EMP-003", created.EmployeeCode);
+        Assert.Equal("General", created.Department);
+        Assert.Equal("Employee", created.JobTitle);
+
+        var getResponse = await client.GetAsync($"/api/v1/employees/{created.Id}");
+        var fetched = await getResponse.Content.ReadFromJsonAsync<EmployeeResponse>();
+
+        Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+        Assert.NotNull(fetched);
+        Assert.Equal(created.Id, fetched.Id);
+        Assert.Equal("Le Van C", fetched.FullName);
+        Assert.Equal("le.van.c@example.com", fetched.Email);
+        Assert.Equal("General", fetched.Department);
+        Assert.Equal("Employee", fetched.JobTitle);
+    }
+
+    [Fact]
     public async Task EmployeeStorageEndpointReportsSqliteProviderAndPostgresSupport()
     {
         await using var factory = new EmployeeApiFactory();
@@ -128,6 +160,11 @@ public sealed class EmployeeApiTests
         string Email,
         string Department,
         string JobTitle);
+
+    private sealed record CreateEmployeeBasicInfoRequest(
+        string EmployeeCode,
+        string FullName,
+        string Email);
 
     private sealed record EmployeeResponse(
         Guid Id,

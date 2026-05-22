@@ -49,6 +49,18 @@ public static class EmployeeEndpoints
             .WithName("CreateEmployee")
             .WithSummary("Create an employee");
 
+        group.MapPost("/basic-info", async Task<IResult> (
+            CreateEmployeeBasicInfoRequest request,
+            CreateEmployeeBasicInfoUseCase useCase,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await useCase.ExecuteAsync(request, cancellationToken);
+            return ToHttpResult(result, employee =>
+                Results.Created($"/api/v1/employees/{employee.Id}", employee));
+        })
+            .WithName("CreateEmployeeBasicInfo")
+            .WithSummary("Create an employee from basic information");
+
         group.MapPut("/{id:guid}", async Task<IResult> (
             Guid id,
             UpdateEmployeeRequest request,

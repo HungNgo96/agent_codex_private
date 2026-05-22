@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddEmployeeInfrastructure(builder.Configuration);
+builder.Services.AddScoped<CreateEmployeeBasicInfoUseCase>();
 builder.Services.AddScoped<CreateEmployeeUseCase>();
 builder.Services.AddScoped<DeleteEmployeeUseCase>();
 builder.Services.AddScoped<GetEmployeeByIdUseCase>();
