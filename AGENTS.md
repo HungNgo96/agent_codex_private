@@ -10,6 +10,7 @@ These instructions apply to every coding agent working in a project that uses th
 - Make small, reviewable changes.
 - Write new Markdown files in English by default. Use another language only when the user explicitly requests it.
 - For module-targeted work, read the matching folder under `docs/modules/` before editing and append task history there when the change creates durable context.
+- For Codex configuration work, read `docs/modules/codex-configuration/` before changing `.codex/config.toml`, agents, profiles, hooks, rules, skills, or permission guidance.
 - Report verification evidence before claiming success.
 - Surface blockers and uncertainty early.
 

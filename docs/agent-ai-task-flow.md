@@ -11,6 +11,7 @@ This document describes the flow for handling a new task from a user. It applies
 - [`templates/handoff-note.md`](../templates/handoff-note.md): worker handoff format.
 - [`docs/codex-flow-audit.md`](codex-flow-audit.md): Codex-specific guidance for context loading, subagents, skills, sandboxing, and docs-only verification.
 - [`docs/modules/README.md`](modules/README.md): module ownership, rules, decisions, and task history convention.
+- [`docs/modules/codex-configuration/README.md`](modules/codex-configuration/README.md): Codex config, profile, sandbox, approval, and subagent guidance.
 
 ## End-to-End Flow
 
@@ -57,6 +58,8 @@ The lead agent starts by reading the user's request and identifying:
 - Target module history under `docs/modules/` when the task maps to a module.
 
 The lead must read `AGENTS.md` and explicitly read or attach the relevant workflow, prompt, template, module history, or doc before assigning work. In Codex, do not assume these supporting files are loaded automatically just because they exist in the repository. If the task is small, tightly coupled, or depends on one sequential investigation path, the lead keeps the work local instead of using subagents.
+
+For Codex CLI work, use the matching configuration profile when possible: `plan` for read-only planning, `code` for implementation, and `review` for final inspection.
 
 ## Phase 2: Delegation Decision
 

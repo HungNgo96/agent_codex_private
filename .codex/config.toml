@@ -1,3 +1,38 @@
+# Project-scoped Codex defaults for the AgentTeams template.
+# Codex loads this file only when the project `.codex/` layer is trusted.
+
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+personality = "pragmatic"
+
+# Keep AGENTS.md concise, but leave enough headroom for nested project guidance
+# if this template is copied into a larger repository.
+project_doc_max_bytes = 32768
+
+[windows]
+sandbox = "elevated"
+
 [agents]
 max_threads = 4
 max_depth = 1
+job_max_runtime_seconds = 1200
+
+[profiles.plan]
+model_reasoning_effort = "high"
+plan_mode_reasoning_effort = "high"
+sandbox_mode = "read-only"
+web_search = "cached"
+
+[profiles.code]
+model_reasoning_effort = "medium"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+
+[profiles.review]
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+web_search = "cached"

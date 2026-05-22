@@ -10,12 +10,15 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 - Codex workflows: https://developers.openai.com/codex/workflows
 - Codex permissions: https://developers.openai.com/codex/permissions
 - Codex sandboxing: https://developers.openai.com/codex/concepts/sandboxing
+- Codex config basics: https://developers.openai.com/codex/config-basic
+- Codex config reference: https://developers.openai.com/codex/config-reference
+- Codex hooks: https://developers.openai.com/codex/hooks
 
 ## Current Fit
 
 - `AGENTS.md` is the right always-on project contract. Codex reads `AGENTS.md` files before work and layers project guidance from the project root down to the current working directory.
 - `.codex/agents/*.toml` matches the Codex custom agent shape. Each project agent defines `name`, `description`, and `developer_instructions`.
-- `.codex/config.toml` keeps subagent fan-out bounded with `max_threads = 4` and `max_depth = 1`.
+- `.codex/config.toml` keeps subagent fan-out bounded with `max_threads = 4` and `max_depth = 1`, and provides plan/code/review profiles.
 - `prompts/`, `workflows/`, and `templates/` give the lead enough structure to create bounded task briefs, collect handoffs, and run verification.
 - `docs/modules/` preserves module-level task history without the larger `docs/ai` knowledge-store layer.
 
@@ -26,6 +29,7 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 - Preserve parent runtime controls. Subagents inherit the active sandbox and approval behavior from the parent session, so prompts should not imply that agent files can always override live permissions.
 - Keep custom agents narrow. The default project agents are `leader`, `coder`, and `reviewer`.
 - Keep skills outside the template unless they are intentionally installed for the project. If repo-local skills are reintroduced later, every skill should include `name` and `description` metadata.
+- Keep hooks and command rules out of the template until a stable repeated policy needs deterministic enforcement.
 
 ## Standard Codex Implementation Flow
 
@@ -37,6 +41,12 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 6. Review all handoffs before integration.
 7. Run verification that matches the changed surface. For docs-only changes, prefer static checks and link checks.
 8. Report changed files, commands run, evidence, risks, and skipped verification reasons.
+
+## Configuration Profiles
+
+- `plan`: read-only planning and research with higher reasoning.
+- `code`: normal implementation with workspace writes and on-request approvals.
+- `review`: read-only final diff review with higher reasoning.
 
 ## Out Of Scope
 
