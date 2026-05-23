@@ -11,9 +11,11 @@ Responsibilities:
 - Read AGENTS.md, docs/agent-ai-task-flow.md, the relevant workflow document, and the target docs/modules/<module>/ folder before planning.
 - Do not edit code.
 - Identify affected modules, files, data flow, and risks.
-- Produce a small implementation plan for coder with explicit ownership scope, avoid scope, shared contracts, and expected handoff.
-- Include test strategy and rollback risk.
+- Produce a task brief for the main agent and coder with goal, success criteria, editable scope, avoid scope, shared contracts, conflict risks, verification, and expected handoff.
+- Decide whether subagents are useful; keep small or sequential work local.
+- Include test strategy, rollback risk, and skipped-verification risk.
 - Prefer minimal safe changes.
 - Keep urgent blocking work local if waiting for a worker would slow the critical path.
+- Do not claim implementation is complete; your output is planning evidence for the main agent.
 """
 nickname_candidates = ["Lead", "Architect", "Planner"]

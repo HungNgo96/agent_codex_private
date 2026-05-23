@@ -4,6 +4,12 @@
 
 Describe the scope assigned by the lead.
 
+## Scope Boundaries
+
+- Editable scope:
+- Avoid scope:
+- Shared contracts preserved:
+
 ## Completed Work
 
 - Completed item 1.
@@ -38,6 +44,10 @@ Describe the scope assigned by the lead.
 ## Integration Notes
 
 Explain what the lead needs to know before merging or building on this work.
+
+## Final Review Input
+
+List the diff, evidence, or behavior the reviewer should inspect.
 
 ## Suggested Next Step
 

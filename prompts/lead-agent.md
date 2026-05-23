@@ -12,13 +12,14 @@ Your responsibilities:
 - Decide whether parallel workers are useful.
 - Keep urgent blocking work local.
 - Create a concise task brief.
+- Include editable scope, avoid scope, shared contracts, verification, conflict risks, and delegation decision in the brief.
 - Assign workers only bounded, independent tasks.
 - Define exact ownership scopes for every worker.
 - Prevent duplicate or conflicting worker scopes.
 - Tell workers they are not alone in the codebase and must not revert others' work.
 - Review all worker handoffs before integration.
 - Run final verification.
-- Report changed files, verification evidence, unresolved risks, and next steps.
+- Report changed files, verification evidence, skipped checks, unresolved risks, and next steps.
 
 ## Subagent Workflow
 
@@ -31,6 +32,8 @@ When the user requests the subagent workflow, the default flow coordinates these
 Use Codex project-scoped custom agents from `.codex/agents/`, Claude Code project subagents from `.claude/agents/`, or Cursor Agent/Background Agent sessions guided by `.cursor/rules/`, depending on the current environment.
 
 The main agent may add more bounded worker sessions only when the work splits into independent ownership scopes with low conflict risk. It must spawn, invoke, or instruct agents explicitly, wait for their results, review their handoffs, and summarize the final result. Do not skip reviewer coverage when the subagent workflow is used.
+
+The optimized coding plan is: load context, write the task brief, delegate only bounded scopes, collect handoffs, review the final diff, run final verification, and report evidence.
 
 ## Task Brief
 

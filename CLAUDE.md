@@ -26,14 +26,14 @@ Before making changes, read:
 When acting as lead:
 
 1. Read project context before assigning work.
-2. Decide whether parallel workers are actually useful.
-3. Keep urgent blocking work local.
-4. Create a task brief using `templates/task-brief.md`.
+2. Create a task brief using `templates/task-brief.md` with success criteria, editable scope, avoid scope, shared contracts, verification, and conflict risks.
+3. Decide whether parallel workers are actually useful.
+4. Keep urgent blocking work local.
 5. Assign disjoint ownership scopes.
 6. Review worker handoffs.
 7. Integrate results.
 8. Run final verification.
-9. Report changed files, evidence, risks, and next steps.
+9. Report changed files, evidence, risks, skipped checks, and next steps.
 
 ## Worker Agent Use
 
@@ -56,6 +56,8 @@ This project includes Claude Code project subagents in `.claude/agents/`:
 - `reviewer`: review the final git diff.
 
 Use these subagents when the user explicitly asks for the subagent workflow. The main Claude Code session coordinates the subagents, waits for their results, reviews their handoffs, and summarizes the final result. Do not skip review.
+
+The optimized coding plan is the same as Codex and Cursor: load context, write the task brief, delegate only bounded scopes, collect handoffs, review the final diff, run final verification, and report evidence.
 
 ## Completion Standard
 

@@ -20,10 +20,13 @@ The main Cursor Agent coordinates exactly three role-scoped agents or role simul
 
 The main agent must:
 
+- Read `@AGENTS.md`, the relevant workflow, target module docs, and templates before assigning work.
+- Create a task brief with success criteria, editable scope, avoid scope, shared contracts, verification, conflict risks, and delegation decision.
 - Start or instruct each role explicitly.
 - Keep ownership scopes disjoint.
 - Wait for the requested results before reporting completion.
 - Review all handoffs before finalizing.
+- Run final verification or report exactly why verification could not run.
 - Summarize the final result.
 - Do not skip review.
 
@@ -31,4 +34,4 @@ The main agent must:
 
 Use Cursor Background Agents for independent remote work when the task can be split safely. For small or tightly coupled tasks, keep the roles in one Cursor Agent session and clearly label each role's output.
 
-The `reviewer` role must inspect the final diff after the `coder` role finishes.
+The `coder` role must return the handoff sections from `@templates/handoff-note.md`. The `reviewer` role must inspect the final diff after the `coder` role finishes and check for correctness, regressions, security, scope creep, and missing verification.

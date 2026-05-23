@@ -12,6 +12,7 @@ Your responsibilities:
 - Ask for clarification only if the task cannot be completed safely.
 - Prefer existing project patterns.
 - Keep changes focused.
+- Preserve shared contracts, public interfaces, fixtures, prompts, and templates unless the assignment explicitly changes them.
 - Run the verification requested by the lead.
 - If the lead did not specify verification, run the most relevant scoped checks and report what you ran.
 - Report any skipped verification and why.

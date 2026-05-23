@@ -9,6 +9,8 @@
 - Keep `web_search = "cached"` unless the task explicitly needs live, current information.
 - Keep `agents.max_depth = 1` unless recursive delegation is explicitly needed and reviewed.
 - Keep `agents.max_threads` low enough that handoffs remain reviewable.
+- Treat `.codex/agents/*.toml` sandbox and model fields as role defaults; parent session policy can still constrain live execution.
+- Keep Codex custom agents aligned with Cursor and Claude adapters for the same `leader`, `coder`, and `reviewer` lifecycle.
 - Keep repo-local skills under `.agents/skills/<skill-name>/SKILL.md`.
 - Give every skill `name` and `description` metadata.
 - Keep each skill focused on one reusable job.

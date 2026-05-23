@@ -25,5 +25,7 @@ Cursor-specific expectations:
 - Do not copy large sections of the template into new Cursor rules unless the shared contract changes.
 - Prefer small, reviewable edits and report verification evidence before claiming completion.
 - If a task is small or tightly coupled, keep it in one Cursor Agent session instead of forcing parallel work.
+- Use `@templates/task-brief.md` to record success criteria, editable scope, avoid scope, shared contracts, verification, conflict risks, and delegation decision before assigning workers.
+- The main Cursor session owns coordination, handoff review, integration, final verification, and the final evidence-based summary.
 
 When delegating or simulating worker roles, keep ownership scopes disjoint and include the required handoff sections from `@templates/handoff-note.md`.

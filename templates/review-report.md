@@ -8,6 +8,8 @@ APPROVED or CHANGES_REQUESTED
 
 Write findings in severity order. If there are no findings, write: `No findings.`
 
+Review for correctness, regressions, security, scope creep, missing tests, missing verification, incomplete handoffs, and conflicts with the user's request.
+
 ### Finding 1
 
 Severity: High | Medium | Low
@@ -23,6 +25,10 @@ List questions or assumptions that need confirmation. For approved or no-finding
 ## Verification Gaps
 
 List checks that were not run or coverage that is missing. For approved or no-findings reports, write `None.` when there are no known gaps.
+
+## Handoff Quality
+
+State whether worker handoffs included scope, files changed or evidence gathered, commands run, verification, risks, integration notes, and suggested next step. Write `Complete.` when no gaps were found.
 
 ## Summary
 

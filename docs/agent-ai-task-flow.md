@@ -47,6 +47,19 @@ Run verification
 Final response with changed files, evidence, risks, and next steps
 ```
 
+## Optimized Coding Lifecycle
+
+Use this lifecycle as the default for feature, bug-fix, refactor, docs, and review work:
+
+1. Load context explicitly: `AGENTS.md`, the task workflow, target module docs, relevant templates, and the active platform adapter.
+2. Write the task brief: goal, non-goals, success criteria, editable scope, avoid scope, shared contracts, verification, conflict risks, and delegation decision.
+3. Split only when useful: keep small or sequential work local; use `leader`, `coder`, and `reviewer` when the work has bounded, independent scopes.
+4. Execute with ownership: each worker edits or researches only its assigned scope and returns a complete handoff.
+5. Review handoffs and final diff: the main agent checks worker evidence, scope control, integration risks, and reviewer findings before completion.
+6. Verify the integrated result: run the narrowest command set that proves the changed surface, then report evidence and skipped checks.
+
+The same lifecycle applies across Codex, Cursor, and Claude Code. Platform adapters change how roles are invoked; they do not change the completion standard.
+
 ## Phase 1: Receive The Task And Load Context
 
 The lead agent starts by reading the user's request and identifying:
@@ -81,7 +94,7 @@ When the user requests the subagent workflow, the default flow uses:
 - `coder`: implement the smallest safe change inside the assigned scope.
 - `reviewer`: review the final diff, focusing on bugs, regressions, security, and tests.
 
-The lead may add more workers when scopes are independent and conflict risk is low. Reviewer coverage must not be skipped when the subagent workflow is used.
+The main agent coordinates these roles, reviews their handoffs, integrates results, runs final verification, and reports evidence. The lead may add more workers when scopes are independent and conflict risk is low. Reviewer coverage must not be skipped when the subagent workflow is used.
 
 Codex spawns subagents only when explicitly requested. Spawned agents inherit the active parent session sandbox and approval behavior, so the lead must keep permission assumptions in the task brief and final report.
 
@@ -119,6 +132,8 @@ Every agent assignment should be clear enough for a new teammate to execute with
 - Verification: exact command, manual check, or skipped-verification reason.
 - Handoff: scope completed, files changed or evidence gathered, commands run, verification, risks, integration notes, and suggested next step.
 
+Do not assign a worker a vague objective such as "improve the flow." Convert it into a bounded ownership scope, exact artifacts to inspect or edit, expected evidence, and a handoff format.
+
 ## Phase 5: Worker Execution And Handoff
 
 Workers stay inside the assigned scope. If completing the task requires changes outside that scope, the worker stops and reports the required scope change.
@@ -143,6 +158,8 @@ The lead reviews all handoffs before merging the work into the final result:
 - Resolve integration gaps with small, clear changes.
 
 The lead must not trust handoffs blindly. If a worker reports passing verification, the lead still reviews the diff and runs the appropriate final verification before claiming completion.
+
+If handoffs conflict, the lead resolves the conflict in the smallest possible integration change and reports which worker scope required adjustment.
 
 ## Phase 7: Verification
 

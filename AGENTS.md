@@ -21,6 +21,7 @@ The lead agent is responsible for:
 - Reading project context before assigning work.
 - Deciding whether parallel workers are actually useful.
 - Writing a concise task brief.
+- Capturing success criteria, editable scope, avoid scope, shared contracts, verification, and conflict risks before dispatching workers.
 - Assigning disjoint ownership scopes.
 - Preventing duplicate or conflicting work.
 - Reviewing worker handoffs.

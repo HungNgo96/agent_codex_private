@@ -1,5 +1,12 @@
 # Codex Configuration History
 
+## 2026-05-23 - Align Codex Agent Roles With Optimized Coding Plan
+
+- Scope: Align Codex custom agents and configuration guidance with the cross-platform optimized coding lifecycle.
+- Files changed: `.codex/agents/*`, `docs/codex-flow-audit.md`, `docs/modules/codex-configuration/*`, and platform references that depend on Codex role behavior.
+- Verification: Codex agent metadata checks, stale-reference searches, Markdown local-link checks, and `git diff --check`.
+- Follow-up: Keep `.codex/config.toml` conservative and update config only when the Codex docs or runtime behavior require it.
+
 ## 2026-05-22 - Clarify User-Level Codex Profiles
 
 - Scope: Clarify that `plan`, `code`, and `review` profiles are user-level shortcuts in the current setup, while project config keeps shared defaults, agents, rules, and fan-out limits.

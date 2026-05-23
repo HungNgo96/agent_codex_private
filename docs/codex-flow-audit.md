@@ -25,6 +25,19 @@ This audit reviews the agent-team flow outside `src/` and aligns the template wi
 - `prompts/`, `workflows/`, and `templates/` give the lead enough structure to create bounded task briefs, collect handoffs, and run verification.
 - `docs/modules/` preserves module-level task history without the larger `docs/ai` knowledge-store layer.
 
+## Optimized Cross-Platform Plan
+
+The optimized coding plan is Codex-first and adapter-friendly:
+
+1. Start with `AGENTS.md`, then explicitly read the task workflow, target module docs, templates, and platform adapter.
+2. Create a task brief with success criteria, editable scope, avoid scope, shared contracts, verification, conflict risks, and delegation decision.
+3. Keep work local unless the task splits into bounded, independent ownership scopes.
+4. When subagents are useful, use `leader` for plan-only scope analysis, `coder` for the assigned implementation scope, and `reviewer` for final diff review.
+5. Require handoffs with files changed or evidence gathered, commands run, verification, risks, integration notes, and suggested next step.
+6. Have the main agent review handoffs, integrate, run final verification, and report evidence.
+
+Cursor and Claude Code adapters should preserve this lifecycle even though their role invocation mechanisms differ from Codex custom agents.
+
 ## Required Adjustments
 
 - Treat `AGENTS.md` as the only repo file Codex reliably loads automatically. Other docs, prompts, workflows, templates, and module history files should be explicitly mentioned, attached, or read by the lead before use.

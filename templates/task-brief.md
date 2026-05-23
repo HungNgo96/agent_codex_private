@@ -24,6 +24,7 @@ Summarize relevant files, docs, constraints, and existing patterns.
 - Observable result 1.
 - Observable result 2.
 - Required verification.
+- Explicit skipped-check policy, if any verification cannot run.
 
 ## Delegation Decision
 
@@ -32,6 +33,7 @@ Summarize relevant files, docs, constraints, and existing patterns.
 - Critical path kept local:
 - Worker scopes:
 - Conflict risks:
+- Platform mapping: Codex `.codex/agents/`, Cursor Agent or Background Agents, Claude Code `.claude/agents/`, or single-session role labels.
 
 ## Team
 
@@ -52,3 +54,10 @@ Every assigned worker listed under Team must have a matching ownership row. Each
 ## Verification Plan
 
 List exact commands, manual checks, or source checks expected before completion.
+
+## Final Review Plan
+
+- Reviewer scope:
+- Diff or evidence to inspect:
+- Required finding format:
+- Residual risks to call out even when approved:
