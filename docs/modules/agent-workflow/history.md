@@ -1,5 +1,12 @@
 # Agent Workflow History
 
+## 2026-05-23 - Add Runnable .NET API Harness
+
+- Scope: Add a PowerShell harness that builds, tests, starts, probes, and records evidence for the sample .NET API under `src`.
+- Files changed: `scripts/run-dotnet-api-harness.ps1`, `docs/dotnet-api-harness.md`, `src/AgentTeams.SampleApi/README.md`, `docs/harness-coding-agent-flow.md`, and this module history.
+- Verification: `dotnet test src\AgentTeams.SampleApi.Tests\AgentTeams.SampleApi.Tests.csproj`, `powershell -ExecutionPolicy Bypass -File .\scripts\run-dotnet-api-harness.ps1`, Markdown reference checks, and `git diff --check`.
+- Follow-up: Keep future API features covered by either focused tests or a harness endpoint probe before final reporting.
+
 ## 2026-05-23 - Add Harness Coding Agent Flow
 
 - Scope: Add a harness-engineering guide that maps external Codex and Claude harness practices into the AgentTeams workflow.

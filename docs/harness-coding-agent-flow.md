@@ -123,6 +123,8 @@ Agents should be able to inspect the system they are changing. When a project gr
 
 If an agent cannot observe a behavior, that behavior is not yet harnessed.
 
+For the sample .NET API, use `docs/dotnet-api-harness.md` and `scripts/run-dotnet-api-harness.ps1` as the runnable verification loop.
+
 ## Cleanup And Entropy Control
 
 Agent output drifts toward existing patterns, including weak ones. Convert repeated review feedback into durable enforcement:

@@ -15,6 +15,16 @@ The employee feature uses Clean Architecture:
 dotnet run --project src\AgentTeams.SampleApi\AgentTeams.SampleApi.csproj
 ```
 
+## Harness
+
+Run the full API harness from the repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run-dotnet-api-harness.ps1
+```
+
+The harness builds, tests, starts the API with an isolated SQLite database, probes key endpoints, and writes evidence under `.harness-runs\<run-id>\`.
+
 ## Try
 
 ```powershell
