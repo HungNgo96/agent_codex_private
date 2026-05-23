@@ -1,5 +1,12 @@
 # Codex Configuration History
 
+## 2026-05-23 - Add Harness Execution-Surface Policy
+
+- Scope: Add MCP, permission-profile, Windows Codex CLI, and task-level tool assumption guidance for the Codex harness.
+- Files changed: `docs/modules/codex-configuration/README.md`, `docs/modules/codex-configuration/rules.md`, `templates/task-brief.md`, and this module history.
+- Verification: Inspect changed Markdown, run stale-reference searches, verify Codex command-rule checks through `codex.cmd`, and inspect git diff.
+- Follow-up: When a real MCP server is added, document its owner, tool allow-list, approval policy, environment variables, and side effects before enabling it.
+
 ## 2026-05-23 - Align Codex Agent Roles With Optimized Coding Plan
 
 - Scope: Align Codex custom agents and configuration guidance with the cross-platform optimized coding lifecycle.

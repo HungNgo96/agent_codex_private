@@ -18,6 +18,7 @@ Summarize relevant files, docs, constraints, and existing patterns.
 - Avoid scope:
 - Shared interfaces or dependencies:
 - Time, compatibility, or verification constraints:
+- Tool, MCP, sandbox, network, and permission assumptions:
 
 ## Success Criteria
 

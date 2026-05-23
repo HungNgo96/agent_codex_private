@@ -6,6 +6,8 @@
 - Keep profile definitions such as `plan`, `code`, and `review` in user-level Codex config when the current Codex runtime does not support those profile settings at project level.
 - Use `sandbox_mode = "workspace-write"` for normal coding and `read-only` for plan/review profiles when defining those profiles in user-level config.
 - Do not use `danger-full-access` as a project default.
+- Deny `.env`, secret files, private keys, credential exports, and token caches in user-level permission profiles even when the workspace is otherwise readable.
+- Keep network access disabled by default in permission profiles; allow-list domains, localhost, private IPs, sockets, browsers, or databases only when a task needs them.
 - Keep `web_search = "cached"` unless the task explicitly needs live, current information.
 - Keep `agents.max_depth = 1` unless recursive delegation is explicitly needed and reviewed.
 - Keep `agents.max_threads` low enough that handoffs remain reviewable.
@@ -23,5 +25,10 @@
 - Use `forbidden` rules for commands that conflict with the operating contract, especially broad destructive git operations.
 - Include `match` and `not_match` examples for every non-trivial `prefix_rule`.
 - Test rules with `codex execpolicy check --pretty --rules .codex/rules/default.rules -- <command>` before relying on them.
+- On Windows PowerShell, use `codex.cmd execpolicy check ...` if the `codex.ps1` shim is blocked by execution policy.
 - Do not use command rules to bypass review. The reviewer role still checks the final diff and verification evidence.
 - Add hooks only when they enforce a stable repeated policy that command rules cannot cover.
+- Treat MCP servers as execution-surface configuration, not passive documentation.
+- Add MCP servers only with a documented owner, purpose, tool allow-list, approval mode, timeout expectation, and environment/token policy.
+- Default new MCP server tools to prompt approval; approve individual tools only after their side effects are understood.
+- Require task-brief assumptions and final review coverage for MCP tools that mutate files, publish data, read secrets, control browsers, call external networks, or access local/private services.
