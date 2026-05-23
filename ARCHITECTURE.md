@@ -19,6 +19,7 @@ flowchart TD
 - `AGENTS.md`: shared operating contract for every agent.
 - `docs/modules/`: module ownership, rules, decisions, and task history.
 - `docs/agent-ai-task-flow.md`: end-to-end task flow.
+- `docs/harness-coding-agent-flow.md`: harness layer for resumable work, executable feedback loops, evaluator roles, and entropy control.
 - `docs/codex-flow-audit.md`: Codex-specific alignment notes.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
 - `workflows/`: playbooks for common task types.

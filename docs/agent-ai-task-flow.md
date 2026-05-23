@@ -10,6 +10,7 @@ This document describes the flow for handling a new task from a user. It applies
 - [`templates/task-brief.md`](../templates/task-brief.md): task brief and delegation decision format.
 - [`templates/handoff-note.md`](../templates/handoff-note.md): worker handoff format.
 - [`docs/codex-flow-audit.md`](codex-flow-audit.md): Codex-specific guidance for context loading, subagents, skills, sandboxing, and docs-only verification.
+- [`docs/harness-coding-agent-flow.md`](harness-coding-agent-flow.md): harness design layer for working state, evaluator loops, observability, and entropy control.
 - [`docs/modules/README.md`](modules/README.md): module ownership, rules, decisions, and task history convention.
 - [`docs/modules/codex-configuration/README.md`](modules/codex-configuration/README.md): Codex config, profile, sandbox, approval, and subagent guidance.
 
@@ -59,6 +60,8 @@ Use this lifecycle as the default for feature, bug-fix, refactor, docs, and revi
 6. Verify the integrated result: run the narrowest command set that proves the changed surface, then report evidence and skipped checks.
 
 The same lifecycle applies across Codex, Cursor, and Claude Code. Platform adapters change how roles are invoked; they do not change the completion standard.
+
+For long-running or high-ambiguity tasks, add the harness layer from `docs/harness-coding-agent-flow.md`: keep a resumable working-state ledger, expose executable verification, use evaluator loops when quality is not reliably judged by the builder, and convert repeated failures into durable docs, tests, or mechanical checks.
 
 ## Phase 1: Receive The Task And Load Context
 

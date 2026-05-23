@@ -1,5 +1,12 @@
 # Agent Workflow History
 
+## 2026-05-23 - Add Harness Coding Agent Flow
+
+- Scope: Add a harness-engineering guide that maps external Codex and Claude harness practices into the AgentTeams workflow.
+- Files changed: `docs/harness-coding-agent-flow.md`, `docs/agent-ai-task-flow.md`, `README.md`, `ARCHITECTURE.md`, and this module history.
+- Verification: Markdown reference checks and `git diff --check`.
+- Follow-up: Consider adding a task-specific feature ledger template if repeated long-running work needs pass/fail acceptance tracking.
+
 ## 2026-05-23 - Optimize Cross-Platform Coding Plan
 
 - Scope: Make the optimized Agent AI coding lifecycle explicit across shared docs, prompts, workflows, templates, and platform adapters.

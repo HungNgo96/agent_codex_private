@@ -20,13 +20,14 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 1. Copy this template into the root of a project.
 2. Read `AGENTS.md` to understand the shared operating contract.
 3. Read `docs/agent-ai-task-flow.md` and the relevant module folder under `docs/modules/`.
-4. Read `docs/codex-flow-audit.md` when running the template with Codex.
-5. For repeatable feature or bug-fix work in Codex, use `$agent-ai-feature-development`.
-6. Choose the relevant workflow from `workflows/`.
-7. Have the lead create a task brief using `templates/task-brief.md`.
-8. Dispatch workers only when work splits into bounded, independent scopes.
-9. Collect handoffs with `templates/handoff-note.md`.
-10. Run final integration and verification before reporting completion.
+4. Read `docs/harness-coding-agent-flow.md` for long-running or high-ambiguity coding work.
+5. Read `docs/codex-flow-audit.md` when running the template with Codex.
+6. For repeatable feature or bug-fix work in Codex, use `$agent-ai-feature-development`.
+7. Choose the relevant workflow from `workflows/`.
+8. Have the lead create a task brief using `templates/task-brief.md`.
+9. Dispatch workers only when work splits into bounded, independent scopes.
+10. Collect handoffs with `templates/handoff-note.md`.
+11. Run final integration and verification before reporting completion.
 
 ## Optimized Coding Plan
 
@@ -109,6 +110,7 @@ Do not skip review.
 - `.cursor/rules/`: Cursor project rules adapter for the shared contract.
 - `docs/modules/`: module ownership, rules, decisions, and task history.
 - `docs/codex-flow-audit.md`: Codex-specific context-loading, subagent, skill, sandbox, and verification alignment notes.
+- `docs/harness-coding-agent-flow.md`: harness layer for resumable working state, evaluator loops, observability, and entropy control.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
 - `workflows/`: playbooks for common work types.
 - `templates/`: task, handoff, review, and plan formats.
