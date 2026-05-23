@@ -12,8 +12,13 @@ The employee feature uses Clean Architecture:
 ## Run
 
 ```powershell
+$env:Auth__Issuer = "AgentTeams.Local"
+$env:Auth__Audience = "AgentTeams.SampleApi"
+$env:Auth__SigningKey = "replace-with-a-local-secret-at-least-32-chars"
 dotnet run --project src\AgentTeams.SampleApi\AgentTeams.SampleApi.csproj
 ```
+
+The API requires `Auth__Issuer`, `Auth__Audience`, and `Auth__SigningKey` from environment variables, user-secrets, or another secure configuration provider. Do not commit production signing keys.
 
 ## Harness
 
@@ -23,7 +28,25 @@ Run the full API harness from the repository root:
 powershell -ExecutionPolicy Bypass -File .\scripts\run-dotnet-api-harness.ps1
 ```
 
-The harness builds, tests, starts the API with an isolated SQLite database, probes key endpoints, and writes evidence under `.harness-runs\<run-id>\`.
+The harness builds, tests, starts the API with isolated auth/database settings, probes key endpoints, and writes evidence under `.harness-runs\<run-id>\`.
+
+## Auth
+
+Employee write endpoints require `Authorization: Bearer <token>` with claim `scope=employees.write`:
+
+- `POST /api/v1/employees`
+- `POST /api/v1/employees/basic-info`
+- `PUT /api/v1/employees/{id}`
+- `DELETE /api/v1/employees/{id}`
+
+In Development only, create a local token:
+
+```powershell
+$tokenResponse = Invoke-RestMethod -Method POST http://localhost:5062/api/v1/auth/dev-token `
+  -ContentType "application/json" `
+  -Body '{"subject":"local","name":"Local User","scopes":["employees.write"]}'
+$token = $tokenResponse.accessToken
+```
 
 ## Try
 
@@ -43,6 +66,7 @@ Create an employee:
 
 ```powershell
 curl -Method POST http://localhost:5062/api/v1/employees `
+  -Headers @{ Authorization = "Bearer $token" } `
   -ContentType "application/json" `
   -Body '{"employeeCode":"EMP-001","fullName":"Nguyen Van A","email":"nguyen.van.a@example.com","department":"Engineering","jobTitle":"Backend Engineer"}'
 ```

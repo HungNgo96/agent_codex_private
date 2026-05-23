@@ -1,5 +1,6 @@
 using AgentTeams.SampleApi.Application.Employees;
 using AgentTeams.SampleApi.Application.Employees.UseCases;
+using AgentTeams.SampleApi.Auth;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AgentTeams.SampleApi.Employees;
@@ -47,7 +48,8 @@ public static class EmployeeEndpoints
                 Results.Created($"/api/v1/employees/{employee.Id}", employee));
         })
             .WithName("CreateEmployee")
-            .WithSummary("Create an employee");
+            .WithSummary("Create an employee")
+            .RequireAuthorization(ApiAuthOptions.EmployeeWriterPolicy);
 
         group.MapPost("/basic-info", async Task<IResult> (
             CreateEmployeeBasicInfoRequest request,
@@ -59,7 +61,8 @@ public static class EmployeeEndpoints
                 Results.Created($"/api/v1/employees/{employee.Id}", employee));
         })
             .WithName("CreateEmployeeBasicInfo")
-            .WithSummary("Create an employee from basic information");
+            .WithSummary("Create an employee from basic information")
+            .RequireAuthorization(ApiAuthOptions.EmployeeWriterPolicy);
 
         group.MapPut("/{id:guid}", async Task<IResult> (
             Guid id,
@@ -71,7 +74,8 @@ public static class EmployeeEndpoints
             return ToHttpResult(result, Results.Ok);
         })
             .WithName("UpdateEmployee")
-            .WithSummary("Update an employee");
+            .WithSummary("Update an employee")
+            .RequireAuthorization(ApiAuthOptions.EmployeeWriterPolicy);
 
         group.MapDelete("/{id:guid}", async Task<IResult> (
             Guid id,
@@ -84,7 +88,8 @@ public static class EmployeeEndpoints
                 : Results.NotFound();
         })
             .WithName("DeleteEmployee")
-            .WithSummary("Delete an employee");
+            .WithSummary("Delete an employee")
+            .RequireAuthorization(ApiAuthOptions.EmployeeWriterPolicy);
 
         group.MapGet("/storage", (GetEmployeeStorageMetadataUseCase useCase) =>
                 TypedResults.Ok(useCase.Execute()))

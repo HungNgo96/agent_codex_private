@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using AgentTeams.SampleApi.Auth;
 using AgentTeams.SampleApi.Employees;
 using AgentTeams.SampleApi.Application.Employees.UseCases;
 using AgentTeams.SampleApi.Infrastructure.Employees;
@@ -6,6 +7,7 @@ using AgentTeams.SampleApi.Infrastructure.Employees;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+builder.Services.AddApiAuth(builder.Configuration);
 builder.Services.AddEmployeeInfrastructure(builder.Configuration);
 builder.Services.AddScoped<CreateEmployeeBasicInfoUseCase>();
 builder.Services.AddScoped<CreateEmployeeUseCase>();
@@ -17,10 +19,13 @@ builder.Services.AddScoped<UpdateEmployeeUseCase>();
 
 var app = builder.Build();
 await app.Services.MigrateEmployeeDatabaseAsync();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapDevTokenEndpoint();
 }
 
 ProductDto[] products =

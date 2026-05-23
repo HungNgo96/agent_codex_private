@@ -20,9 +20,10 @@ The harness:
 
 - Builds `src\AgentTeams.SampleApi\AgentTeams.SampleApi.csproj`.
 - Tests `src\AgentTeams.SampleApi.Tests\AgentTeams.SampleApi.Tests.csproj`.
-- Starts the API with an isolated SQLite database in `.harness-runs\<run-id>\employees.db`.
+- Starts the API with isolated JWT auth settings and a SQLite database in `.harness-runs\<run-id>\employees.db`.
 - Waits for `/openapi/v1.json`.
-- Probes product, agent workflow, sample harness, employee list, employee storage, basic-info creation, and employee read-back endpoints.
+- Gets a development bearer token from `/api/v1/auth/dev-token`.
+- Probes product, agent workflow, sample harness, employee list, employee storage, authenticated basic-info creation, and employee read-back endpoints.
 - Stops the API process after the run.
 
 ## Evidence

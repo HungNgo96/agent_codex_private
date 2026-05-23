@@ -1,4 +1,5 @@
 @AgentTeams.SampleApi_HostAddress = http://localhost:5062
+@EmployeeWriterToken = replace-with-development-token
 
 GET {{AgentTeams.SampleApi_HostAddress}}/api/v1/products/
 Accept: application/json
@@ -15,8 +16,20 @@ Accept: application/json
 
 ###
 
+POST {{AgentTeams.SampleApi_HostAddress}}/api/v1/auth/dev-token
+Content-Type: application/json
+
+{
+  "subject": "local",
+  "name": "Local User",
+  "scopes": ["employees.write"]
+}
+
+###
+
 POST {{AgentTeams.SampleApi_HostAddress}}/api/v1/employees
 Content-Type: application/json
+Authorization: Bearer {{EmployeeWriterToken}}
 
 {
   "employeeCode": "EMP-001",

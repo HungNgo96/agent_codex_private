@@ -1,5 +1,12 @@
 # Agent Workflow History
 
+## 2026-05-23 - Add JWT Auth Harness Coverage
+
+- Scope: Add JWT bearer authentication, an `EmployeeWriter` policy, development token generation, and harness coverage for authenticated employee writes.
+- Files changed: sample API auth files, employee endpoint auth policy wiring, API integration tests, HTTP examples, harness script, API docs, and this module history.
+- Verification: `dotnet test src\AgentTeams.SampleApi.Tests\AgentTeams.SampleApi.Tests.csproj`, `powershell -ExecutionPolicy Bypass -File .\scripts\run-dotnet-api-harness.ps1`, and `git diff --check`.
+- Follow-up: Replace the development token flow with an external identity provider before using this API in production.
+
 ## 2026-05-23 - Add Runnable .NET API Harness
 
 - Scope: Add a PowerShell harness that builds, tests, starts, probes, and records evidence for the sample .NET API under `src`.

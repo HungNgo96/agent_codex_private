@@ -18,6 +18,7 @@ $resultPath = Join-Path $runDir "result.json"
 $apiProcess = $null
 $exitCode = 0
 $createdEmployeeId = $null
+$accessToken = $null
 
 New-Item -ItemType Directory -Path $runDir -Force | Out-Null
 
@@ -99,6 +100,7 @@ function Invoke-EndpointProbe {
         [string] $Path,
         [int] $ExpectedStatusCode,
         [object] $Body = $null,
+        [string] $BearerToken = $null,
         [scriptblock] $Validate = $null
     )
 
@@ -118,6 +120,12 @@ function Invoke-EndpointProbe {
         if ($null -ne $Body) {
             $request.ContentType = "application/json"
             $request.Body = ($Body | ConvertTo-Json -Depth 10)
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace($BearerToken)) {
+            $request.Headers = @{
+                Authorization = "Bearer $BearerToken"
+            }
         }
 
         $response = Invoke-WebRequest @request
@@ -165,6 +173,9 @@ function Invoke-EndpointProbe {
 $previousEnvironment = @{
     ASPNETCORE_ENVIRONMENT = $env:ASPNETCORE_ENVIRONMENT
     ASPNETCORE_URLS = $env:ASPNETCORE_URLS
+    Auth__Issuer = $env:Auth__Issuer
+    Auth__Audience = $env:Auth__Audience
+    Auth__SigningKey = $env:Auth__SigningKey
     Database__Provider = $env:Database__Provider
     ConnectionStrings__EmployeeDatabase = $env:ConnectionStrings__EmployeeDatabase
 }
@@ -186,6 +197,9 @@ try {
 
     $env:ASPNETCORE_ENVIRONMENT = "Development"
     $env:ASPNETCORE_URLS = $baseUrl
+    $env:Auth__Issuer = "AgentTeams.Harness"
+    $env:Auth__Audience = "AgentTeams.SampleApi"
+    $env:Auth__SigningKey = "agent-teams-harness-signing-key-must-be-long-enough"
     $env:Database__Provider = "Sqlite"
     $env:ConnectionStrings__EmployeeDatabase = "Data Source=$(Join-Path $runDir 'employees.db')"
 
@@ -219,6 +233,23 @@ try {
     }
 
     Wait-ForApi
+
+    $devTokenRequest = [ordered]@{
+        subject = "harness"
+        name = "Harness"
+        scopes = @("employees.write")
+    }
+
+    Invoke-EndpointProbe -Name "dev-token-create" -Method "POST" -Path "/api/v1/auth/dev-token" -ExpectedStatusCode 200 -Body $devTokenRequest -Validate {
+        param($json)
+        if ([string]::IsNullOrWhiteSpace($json.accessToken)) {
+            throw "Expected access token."
+        }
+        if ($json.tokenType -ne "Bearer") {
+            throw "Expected Bearer token type."
+        }
+        $script:accessToken = $json.accessToken
+    }
 
     Invoke-EndpointProbe -Name "products-list" -Method "GET" -Path "/api/v1/products" -ExpectedStatusCode 200 -Validate {
         param($json)
@@ -264,7 +295,7 @@ try {
         email = "harness-$runId@example.com"
     }
 
-    Invoke-EndpointProbe -Name "employee-basic-info-create" -Method "POST" -Path "/api/v1/employees/basic-info" -ExpectedStatusCode 201 -Body $basicInfoRequest -Validate {
+    Invoke-EndpointProbe -Name "employee-basic-info-create" -Method "POST" -Path "/api/v1/employees/basic-info" -ExpectedStatusCode 201 -Body $basicInfoRequest -BearerToken $accessToken -Validate {
         param($json)
         if ([string]::IsNullOrWhiteSpace($json.id)) {
             throw "Expected created employee id."
@@ -305,6 +336,9 @@ finally {
 
     $env:ASPNETCORE_ENVIRONMENT = $previousEnvironment.ASPNETCORE_ENVIRONMENT
     $env:ASPNETCORE_URLS = $previousEnvironment.ASPNETCORE_URLS
+    $env:Auth__Issuer = $previousEnvironment.Auth__Issuer
+    $env:Auth__Audience = $previousEnvironment.Auth__Audience
+    $env:Auth__SigningKey = $previousEnvironment.Auth__SigningKey
     $env:Database__Provider = $previousEnvironment.Database__Provider
     $env:ConnectionStrings__EmployeeDatabase = $previousEnvironment.ConnectionStrings__EmployeeDatabase
 }
