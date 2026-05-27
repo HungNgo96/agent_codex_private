@@ -1,5 +1,12 @@
 # Agent Workflow History
 
+## 2026-05-27 - Add Unified Agent Harness Runner
+
+- Scope: Add a single Quick, Full, and Status harness entrypoint inspired by ECC selective verification surfaces.
+- Files changed: `scripts/Invoke-AgentHarness.ps1`, `docs/dotnet-api-harness.md`, `docs/harness-coding-agent-flow.md`, `README.md`, command rules, and this module history.
+- Verification: Planned commands are `Invoke-AgentHarness.ps1 -Mode Quick`, `Invoke-AgentHarness.ps1 -Mode Full`, `Invoke-AgentHarness.ps1 -Mode Status`, command-rule checks, and `git diff --check`.
+- Follow-up: Keep the runner narrow; add modes only when a repeated verification loop proves useful.
+
 ## 2026-05-23 - Add JWT Auth Harness Coverage
 
 - Scope: Add JWT bearer authentication, an `EmployeeWriter` policy, development token generation, and harness coverage for authenticated employee writes.

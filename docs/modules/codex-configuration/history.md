@@ -1,5 +1,12 @@
 # Codex Configuration History
 
+## 2026-05-27 - Allow Unified Agent Harness Runner
+
+- Scope: Add command-rule coverage for the new project verification entrypoint.
+- Files changed: `.codex/rules/default.rules`, `scripts/Invoke-AgentHarness.ps1`, harness docs, and this module history.
+- Verification: Planned checks are Codex execpolicy checks for the runner and destructive-command guard, plus the harness verification commands.
+- Follow-up: Keep hooks out unless a repeated manual harness policy needs deterministic enforcement.
+
 ## 2026-05-23 - Add Harness Execution-Surface Policy
 
 - Scope: Add MCP, permission-profile, Windows Codex CLI, and task-level tool assumption guidance for the Codex harness.

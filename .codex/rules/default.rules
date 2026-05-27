@@ -106,3 +106,14 @@ prefix_rule(
         "dotnet test src\\AgentTeams.SampleApi.Tests\\AgentTeams.SampleApi.Tests.csproj",
     ],
 )
+
+prefix_rule(
+    pattern = ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "./scripts/Invoke-AgentHarness.ps1"],
+    decision = "allow",
+    justification = "The unified agent harness is the expected project verification entrypoint.",
+    match = [
+        "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/Invoke-AgentHarness.ps1 -Mode Quick",
+        "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/Invoke-AgentHarness.ps1 -Mode Full",
+        "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/Invoke-AgentHarness.ps1 -Mode Status",
+    ],
+)

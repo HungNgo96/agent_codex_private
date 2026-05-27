@@ -123,7 +123,7 @@ Agents should be able to inspect the system they are changing. When a project gr
 
 If an agent cannot observe a behavior, that behavior is not yet harnessed.
 
-For the sample .NET API, use `docs/dotnet-api-harness.md` and `scripts/run-dotnet-api-harness.ps1` as the runnable verification loop.
+For the sample .NET API, use `docs/dotnet-api-harness.md` and `scripts/Invoke-AgentHarness.ps1` as the runnable verification loop. `Quick` is the normal implementation checkpoint, `Full` is the API end-to-end checkpoint, and `Status` is the resume/review command for the latest recorded evidence.
 
 ## Cleanup And Entropy Control
 

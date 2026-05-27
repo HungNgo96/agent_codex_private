@@ -27,7 +27,7 @@ Use a single agent when the task is small, tightly coupled, or blocked on one se
 8. Have the lead create a task brief using `templates/task-brief.md`.
 9. Dispatch workers only when work splits into bounded, independent scopes.
 10. Collect handoffs with `templates/handoff-note.md`.
-11. Run final integration and verification before reporting completion.
+11. Run final integration and verification before reporting completion. For the sample .NET API, use `./scripts/Invoke-AgentHarness.ps1 -Mode Quick` during implementation and `-Mode Full` before final reporting when API behavior changed.
 
 ## Optimized Coding Plan
 
@@ -111,6 +111,7 @@ Do not skip review.
 - `docs/modules/`: module ownership, rules, decisions, and task history.
 - `docs/codex-flow-audit.md`: Codex-specific context-loading, subagent, skill, sandbox, and verification alignment notes.
 - `docs/harness-coding-agent-flow.md`: harness layer for resumable working state, evaluator loops, observability, and entropy control.
+- `scripts/Invoke-AgentHarness.ps1`: unified Quick, Full, and Status verification entrypoint for the sample .NET API.
 - `prompts/`: paste-ready prompts for lead and worker sessions.
 - `workflows/`: playbooks for common work types.
 - `templates/`: task, handoff, review, and plan formats.
